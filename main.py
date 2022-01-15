@@ -38,10 +38,14 @@ def searchingp():
     search_term = input("What would you like to search for? \n")
     print(search_term);
 
+def resort(datA):
+    datA.sort();
+    return datA;
 if __name__ == "__main__":
     outname = input_and_name();
     searchingp();
     storage1 = StorageBoi(69, "Razer", "booki", "cosmo");
-    databoi = [["test", 69, "cool"], [420, "1070ti", "url"], 
+    databoi = [[550, 69, "cool"], [420, "1070ti", "url"], 
     storage1.outlist()];
+    datagirl = resort(databoi)
     the_output_csv(outname, databoi);
