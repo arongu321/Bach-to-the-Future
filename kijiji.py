@@ -9,13 +9,13 @@ def get_page(url):
         soup = BeautifulSoup(page.content, 'html.parser')
 
         if len(list(soup.children)) < 3:
-            print('invalid, wait 5s')
+            print('Invalid response, wait 5s')
             time.sleep(5)
             page = requests.get(url)  # try again if the response was incorrect
             soup = BeautifulSoup(page.content, 'html.parser')
 
             if len(list(soup.children)) < 3:
-                print('still invalid, give up')
+                print('Still invalid, giving up')
                 return None
         return soup
     except:
@@ -63,13 +63,22 @@ def get_kijiji_page_info(url):
     return{'price': [price, currency, None], 'title': title, 'category': category, 'content': content}
 
 
-def make_kijiji_search_url(search_string, region = 'edmonton', ):
+def make_kijiji_search_url(search_string, region='edmonton', ):
     search_string = search_string.lower().replace(' ', '-')
 
-    region_dict = {'edmonton' : 'k0c10l1700203',
-                   'calgary' : 'k0c10l1700199',
-                   'alberta' : ''
+    region = region.lower()
+
+    region_dict = {'edmonton': 'k0c10l1700203',
+                   'calgary': 'k0c10l1700199',
+                   ''
+                   'alberta': 'k0c10l9003',
+                   'canada': 'k0l0',
+
                    }
+
+    if region not in region_dict.keys():
+        print('Unsupported region, searching all of Canada.')
+        region = 'canada'
 
     url = "https://www.kijiji.ca/b-buy-sell/" + region + "/" + search_string + "/" + region_dict[region] + "?sort=dateAsc&dc=true"
 
@@ -90,14 +99,15 @@ def kijiji_main(search_term, region='edmonton'):
 
     object_list = []
 
-    print("Found " + str(len(url_list)) + " listings on Kijiji. Search term : " + search_term + " . Region : " + region)
+    print("Found " + str(len(url_list)) + " listings on Kijiji. Search term : " + search_term + " Region : " + region)
 
     for url in url_list:
         time.sleep(0.5)
         attribute_dict = get_kijiji_page_info(url)
-        StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'])
 
-        object_list += [StorageBoi]
+        if attribute_dict:
+            StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'])
+            object_list += [StorageBoi]
 
     print("Done fetching results from Kijiji.")
     return object_list
