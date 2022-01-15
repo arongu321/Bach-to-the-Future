@@ -1,6 +1,10 @@
 import csv
 import sys
+import os
 from storageBoi import StorageBoi
+import requests
+import bs4
+
 
 def the_output_csv(filename, theData):
     """
@@ -41,12 +45,15 @@ def searchingp():
     print(search_term);
 
 def resort(datA):
+    """
+    I made this function literally just to sort the final list of lists.
+    """
     datA.sort();
     return datA;
 if __name__ == "__main__":
     outname = input_and_name();
     searchingp();
-    storage1 = StorageBoi(690, "Razer", "booki", "cosmo");
+    storage1 = StorageBoi([690, 'CAD', 'Buying'], "Razer", "booki", "cosmo");
     databoi = [[550, 69, "cool"], [420, "1070ti", "url"], 
     storage1.outlist()];
     datagirl = resort(databoi)
