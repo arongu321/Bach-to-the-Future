@@ -43,7 +43,7 @@ def searchingp():
     #   Takes input for the search term, which will then be distributed to the
     #   aux code.
     search_term = input("What would you like to search for? \n");
-    print(search_term);
+    return(search_term);
 
 def resort_prep(datA):
     """
@@ -57,15 +57,16 @@ def resort_prep(datA):
 
 if __name__ == "__main__":
     outname = input_and_name();
-    #searchingp();
+    search_terM = searchingp();
     storage1 = StorageBoi([690, 'CAD', 'Buying'], "Razer", "booki", "cosmo");
     storage2 = StorageBoi([420, 'USD', 'SELLING'], "cum", "wum", "pum");
     storage3 = StorageBoi([1000, 'CAD', 'AUCTION'], "slime", "wine",
     "stories")
 
-    kijiji_list = kijiji_main('amd')
-    print(kijiji_list)
+    kijiji_list = kijiji_main(search_terM);
+    print(kijiji_list);
 
     databoi = [storage1, storage2, storage3];
+    databoi.extend(kijiji_list);
     datagirl = resort_prep(databoi);
     #the_output_csv(outname, datagirl);
