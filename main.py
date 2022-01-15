@@ -35,7 +35,9 @@ def searchingp():
     """
     This function will take the user input and feed it to the auxilery codes.
     """
-    search_term = input("What would you like to search for? \n")
+    #   Takes input for the search term, which will then be distributed to the
+    #   aux code.
+    search_term = input("What would you like to search for? \n");
     print(search_term);
 
 def resort(datA):
@@ -44,7 +46,7 @@ def resort(datA):
 if __name__ == "__main__":
     outname = input_and_name();
     searchingp();
-    storage1 = StorageBoi(69, "Razer", "booki", "cosmo");
+    storage1 = StorageBoi(690, "Razer", "booki", "cosmo");
     databoi = [[550, 69, "cool"], [420, "1070ti", "url"], 
     storage1.outlist()];
     datagirl = resort(databoi)

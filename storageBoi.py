@@ -1,5 +1,6 @@
 class StorageBoi:
-    def __init__(self, pricE = [None, None], urL = '', titlE = '', descriptioN = ''):
+    def __init__(self, pricE = [None, None], urL = '', titlE = '',
+    descriptioN = ''):
         self.price = pricE;
         self.url = urL;
         self.title = titlE;
