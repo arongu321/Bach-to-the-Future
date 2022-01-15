@@ -97,9 +97,10 @@ def kijiji_main(search_term):
     return object_list
 
 if __name__ == "__main__":
+    pass
     #url_list = get_kijiji_search_results(make_kijiji_search_url('amd'))
 
     #print(get_kijiji_page_info('https://www.kijiji.ca/v-free-stuff/edmonton/wooden-pallet/1602057204'))
     #print(get_kijiji_page_info('https://www.kijiji.ca/v-baby-clothes-9-12-months/edmonton/looking-for-free-baby-clothing-and-blankets-only/1594926129'))
 
-    
+
