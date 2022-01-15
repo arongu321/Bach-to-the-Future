@@ -49,11 +49,11 @@ def resort_prep(datA):
     """
     I made this function literally just to sort the final list of lists.
     """
-    outlist = []
+    outerlist = []
     for i in datA:
-        outlist.append(i.outlist())
-    outlist.sort();
-    return outlist;
+        outerlist.append(i.outlist())
+    outerlist.sort();
+    return outerlist;
 
 if __name__ == "__main__":
     outname = input_and_name();
