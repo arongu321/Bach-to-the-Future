@@ -50,6 +50,7 @@ def resort(datA):
     """
     datA.sort();
     return datA;
+    
 if __name__ == "__main__":
     outname = input_and_name();
     searchingp();
