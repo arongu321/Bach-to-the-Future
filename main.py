@@ -1,5 +1,6 @@
 import csv
 import sys
+from storageBoi import StorageBoi
 
 def the_output_csv(filename, theData):
     """
@@ -31,10 +32,16 @@ def input_and_name():
     return outname;
 
 def searchingp():
+    """
+    This function will take the user input and feed it to the auxilery codes.
+    """
     search_term = input("What would you like to search for? \n")
     print(search_term);
+
 if __name__ == "__main__":
     outname = input_and_name();
     searchingp();
-    databoi = [["test", 69, "cool"], [420, "1070ti", "url"]];
+    storage1 = StorageBoi(69, "Razer", "booki", "cosmo");
+    databoi = [["test", 69, "cool"], [420, "1070ti", "url"], 
+    storage1.outlist()];
     the_output_csv(outname, databoi);
