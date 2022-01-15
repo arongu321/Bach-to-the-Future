@@ -1,11 +1,11 @@
 import csv
-import os
+import sys
 
 def the_output_csv(filename, theData):
     """
     The function that will output the data collected as a .csv file type.
     """
-    address = "Outputs\\%s.csv"%(filename);
+    address = "%s.csv"%(filename);
     headerBoi = ["Price", "Title", "Description", "Link"];
     with open(address, 'w') as fout:
         writer = csv.writer(fout);
@@ -15,6 +15,26 @@ def the_output_csv(filename, theData):
         for i in theData:
             writer.writerow(i); #   Shoving out data.
 
+def input_and_name():
+    """
+    Determining the name of the output file. Useful when you want to search
+    and store data for multiple things.
+    """
+    try:    #   Using try because of the potential mess that sys.argv could be
+        if len(sys.argv) > 2:
+            print("we only support 1 argument for output names as of now.");
+            exit();
+        else:
+            outname = str(sys.argv[1]); #   Setting the name of output file.
+    except IndexError:
+        outname = "default_name";
+    return outname;
+
+def searchingp():
+    search_term = input("What would you like to search for? \n")
+    print(search_term);
 if __name__ == "__main__":
+    outname = input_and_name();
+    searchingp();
     databoi = [["test", 69, "cool"], [420, "1070ti", "url"]];
-    the_output_csv("test", databoi);
+    the_output_csv(outname, databoi);
