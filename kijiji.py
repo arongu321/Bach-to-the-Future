@@ -67,7 +67,9 @@ def make_kijiji_search_url(search_string, region = 'edmonton', ):
     search_string = search_string.lower().replace(' ', '-')
 
     region_dict = {'edmonton' : 'k0c10l1700203',
-                   'calgary' : 'k0c10l1700199'}
+                   'calgary' : 'k0c10l1700199',
+                   'alberta' : ''
+                   }
 
     url = "https://www.kijiji.ca/b-buy-sell/" + region + "/" + search_string + "/" + region_dict[region] + "?sort=dateAsc&dc=true"
 
@@ -83,17 +85,21 @@ def get_kijiji_search_results(url):
 
     return ["https://www.kijiji.ca" + i.find('a')['href'] for i in list(body.find_all('div', class_='title'))]
 
-def kijiji_main(search_term):
+def kijiji_main(search_term, region='edmonton'):
     url_list = get_kijiji_search_results(make_kijiji_search_url(search_term))
 
     object_list = []
 
+    print("Found " + str(len(url_list)) + " listings on Kijiji. Search term : " + search_term + " . Region : " + region)
+
     for url in url_list:
+        time.sleep(0.5)
         attribute_dict = get_kijiji_page_info(url)
         StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'])
 
-        object_list += StorageBoi
+        object_list += [StorageBoi]
 
+    print("Done fetching results from Kijiji.")
     return object_list
 
 if __name__ == "__main__":

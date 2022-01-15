@@ -4,7 +4,7 @@ import os
 from storageBoi import StorageBoi
 import requests
 import bs4
-
+from kijiji import kijiji_main
 
 def the_output_csv(filename, theData):
     """
@@ -57,11 +57,15 @@ def resort_prep(datA):
 
 if __name__ == "__main__":
     outname = input_and_name();
-    searchingp();
+    #searchingp();
     storage1 = StorageBoi([690, 'CAD', 'Buying'], "Razer", "booki", "cosmo");
     storage2 = StorageBoi([420, 'USD', 'SELLING'], "cum", "wum", "pum");
     storage3 = StorageBoi([1000, 'CAD', 'AUCTION'], "slime", "wine",
     "stories")
+
+    kijiji_list = kijiji_main('amd')
+    print(kijiji_list)
+
     databoi = [storage1, storage2, storage3];
     datagirl = resort_prep(databoi);
-    the_output_csv(outname, datagirl);
+    #the_output_csv(outname, datagirl);
