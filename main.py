@@ -11,7 +11,8 @@ def the_output_csv(filename, theData):
     The function that will output the data collected as a .csv file type.
     """
     address = "%s.csv"%(filename);
-    headerBoi = ["Price", "Title", "Description", "Link"];
+    headerBoi = ["Price", "Currency", "Transaction Type", "Title",
+    "Description", "Link"];
     with open(address, 'w') as fout:
         writer = csv.writer(fout);
         writer.writerow(headerBoi); #   Prints out the headers for the data.
@@ -44,18 +45,23 @@ def searchingp():
     search_term = input("What would you like to search for? \n");
     print(search_term);
 
-def resort(datA):
+def resort_prep(datA):
     """
     I made this function literally just to sort the final list of lists.
     """
-    datA.sort();
-    return datA;
-    
+    outlist = []
+    for i in datA:
+        outlist.append(i.outlist())
+    outlist.sort();
+    return outlist;
+
 if __name__ == "__main__":
     outname = input_and_name();
     searchingp();
     storage1 = StorageBoi([690, 'CAD', 'Buying'], "Razer", "booki", "cosmo");
-    databoi = [[550, 69, "cool"], [420, "1070ti", "url"], 
-    storage1.outlist()];
-    datagirl = resort(databoi)
-    the_output_csv(outname, databoi);
+    storage2 = StorageBoi([420, 'USD', 'SELLING'], "cum", "wum", "pum");
+    storage3 = StorageBoi([1000, 'CAD', 'AUCTION'], "slime", "wine",
+    "stories")
+    databoi = [storage1, storage2, storage3];
+    datagirl = resort_prep(databoi);
+    the_output_csv(outname, datagirl);
