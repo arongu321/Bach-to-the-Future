@@ -3,7 +3,28 @@ from bs4 import BeautifulSoup
 import csv
 import os
 
+def search_url(search_string):
 
+    
+    url = "https://www.amazon.com/s?k="+search_string
+    page = requests.get(url,headers = headers)
+    return page
+
+def get_page_content(page):
+
+    status = page.status_code
+
+    if status == 200:
+
+        soup = BeautifulSoup(page.content , "html.parser")
+        #print(soup)
+        listings = soup.findAll("div",attrs = {"class":"s-result-item"})[0:-2]
+
+        return listings
+       
+    else:
+        print(status)
+        return False
 
 if __name__ == "__main__":
     headers = {
@@ -23,20 +44,15 @@ if __name__ == "__main__":
     }
     # for now the url is hardcoded with the string given by the main.py file
     search_string = "gtx 1660 "
-    url = "https://www.amazon.com/s?k="+search_string
-    page = requests.get(url,headers = headers)
+
+    page = search_url(search_string)
     
-    status = page.status_code
+    listings = get_page_content(page)
 
-    if status == 200:
+#   now we have to parse the listings according to search criteria(for future criteria)
 
-        soup = BeautifulSoup(page.content , "html.parser")
-        #print(soup)
-        listings = soup.findAll("div",attrs = {"class":"s-result-item"})[1:-2]
+    for product in listings:
+            name = product.find("span",attrs={"class":"a-size-medium"})
+            print(name.text)
+            break
 
-
-
-        print(listings)
-        print(len(listings))
-    else:
-        print(status)
