@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import time
+from storageBoi import StorageBoi
 
 def get_page(url):
     try:
@@ -27,18 +28,39 @@ def get_kijiji_page_info(url):
     if not soup:
         return None
 
-    html = list(soup.children)[2]
-    head = list(html.children)[1]
-    body = list(html.children)[3]
+    try:
+        html = list(soup.children)[2]
+        head = list(html.children)[1]
+        body = list(html.children)[3]
+    except:
+        return None
 
-    price = list(body.find_all('div', class_='priceContainer-1419890179'))[0].find('span').find('span').get_text()
+    try:
+        price = list(body.find_all('div', class_='priceContainer-1419890179'))[0].find('span').find('span').get_text()
+    except:
+        price = None
+    try:
+        currency = list(body.find_all('div', class_='priceContainer-1419890179'))[0].find('span').find_all('span')[1]['content']
+    except:
+        currency = None
+    try:
+        title = head.find('title').get_text().split('|')[0]
+    except:
+        title = None
+    try:
+        content = list(body.find_all('div', class_='descriptionContainer-231909819'))[0].find('div').get_text()
+    except:
+        content = None
 
-    currency = list(body.find_all('div', class_='priceContainer-1419890179'))[0].find('span').find_all('span')[1]['content']
-    print(currency)
-    title = head.find('title').get_text()
-    content = list(body.find_all('div', class_='descriptionContainer-231909819'))[0].find('div').get_text()
+    if price == 'Free' or (price == None and category == "v-free-stuff"):
+        price = 0
+    elif price.lower() == '':
+        pass
 
-    return{'price': [price, currency], 'title': title, 'category': category, 'content': content}
+    if price == 0:
+        currency = 'CAD'
+
+    return{'price': [price, currency, None], 'title': title, 'category': category, 'content': content}
 
 
 def make_kijiji_search_url(search_string, region = 'edmonton', ):
@@ -61,9 +83,23 @@ def get_kijiji_search_results(url):
 
     return ["https://www.kijiji.ca" + i.find('a')['href'] for i in list(body.find_all('div', class_='title'))]
 
-if __name__ == "__main__":
-    url_list = get_kijiji_search_results(make_kijiji_search_url('amd'))
+def kijiji_main(search_term):
+    url_list = get_kijiji_search_results(make_kijiji_search_url(search_term))
 
-    #for url in url_list:
-    #    print(url)
-    #    print(get_kijiji_page_info(url))
+    object_list = []
+
+    for url in url_list:
+        attribute_dict = get_kijiji_page_info(url)
+        StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'])
+
+        object_list += StorageBoi
+
+    return object_list
+
+if __name__ == "__main__":
+    #url_list = get_kijiji_search_results(make_kijiji_search_url('amd'))
+
+    #print(get_kijiji_page_info('https://www.kijiji.ca/v-free-stuff/edmonton/wooden-pallet/1602057204'))
+    #print(get_kijiji_page_info('https://www.kijiji.ca/v-baby-clothes-9-12-months/edmonton/looking-for-free-baby-clothing-and-blankets-only/1594926129'))
+
+    
