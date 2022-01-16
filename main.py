@@ -5,6 +5,8 @@ from storageBoi import StorageBoi
 import requests
 import bs4
 from kijiji import kijiji_main
+from amazon import main_amazon
+from ebay import ebay_main
 
 def the_output_csv(filename, theData):
     """
@@ -57,8 +59,11 @@ def resort_prep(datA):
     return outerlist
 
 if __name__ == "__main__":
-    deBug = True
-    kijiji = True
+    deBug = True;
+    kijiji = True;
+    amazon = True;
+    ebay = False;
+    fbm = False;
     #   Finding the name of the output file from the user.
     outname = input_and_name();
     #   Taking the search term from the user.
@@ -73,6 +78,16 @@ if __name__ == "__main__":
         databoi.extend(kijiji_list);
     if deBug:
         print(kijiji_list);
+    
+    if amazon:
+        amazon_list = main_amazon(search_terM);
+        databoi.extend(main_amazon);
+    if deBug:
+        print(amazon_list);
+
+    if ebay:
+        ebay_list = ebay_main(search_terM);
+        databoi.extend(ebay_list);
 
     datagirl = resort_prep(databoi);
     the_output_csv(outname, datagirl);
