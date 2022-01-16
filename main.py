@@ -15,7 +15,7 @@ def the_output_csv(filename, theData):
     """
     address = "%s.csv"%(filename);
     headerBoi = ["Price", "Currency", "Transaction Type", "Title",
-    "Description", "Category", "Date Posted", "Link"];
+    "Description", "Category", "Date Posted", "Website", "Link"];
     with open(address, 'w', encoding = 'utf-8') as fout:
         writer = csv.writer(fout);
         writer.writerow(headerBoi); # Prints out the headers for the data.
@@ -64,7 +64,7 @@ def resort_prep(datA):
     #   Shoving the data into a list in the larger return list.
     for i in datA:
         outerlist.append([i.price, i.currency, i.transaction, i.title,
-        i.description, i.category, i.date, i.url])
+        i.description, i.category, i.date, i.website, i.url])
     return outerlist
 
 if __name__ == "__main__":

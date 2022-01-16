@@ -15,6 +15,9 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 def main_amazon(search_key):
+    
+    global Debug
+    Debug = True
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--log-level = 1")
@@ -32,15 +35,18 @@ def main_amazon(search_key):
             
             listings = get_page_content(page)
     else:
-            #print("page is none")
-        return None
+            if Debug :
+                print("page is none")
+            return None
     #   now we have to parse the listings according to search criteria(for future criteria)
     if listings != None:
-            #print("in get_prod_objs")
-        objs = get_prod_objects(listings)
+            if Debug:
+                print("in get_prod_objs")
+            objs = get_prod_objects(listings)
     else:
         return None
-    #print(objs)
+    if Debug:
+        print(objs)
     #driver.close()
     return objs
 
@@ -89,7 +95,8 @@ def get_prod_objects(listings):
                     try:
                         
                         name = product.find("span",attrs={"class":"a-size-medium"}).text.strip()
-                        #print(name,end="")
+                        if Debug:
+                            print(name,end="")
                         """
                         search_list = search_string.split()
                         
@@ -111,7 +118,8 @@ def get_prod_objects(listings):
                         price = product.find("span",attrs={"class":"a-offscreen"}).text.strip()
                         
                         price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
-                        #print(price,end="")
+                        if Debug:
+                            print(price,end="")
                     except:
                         #print(price)
                         if price == None:
@@ -123,14 +131,16 @@ def get_prod_objects(listings):
                                 try:
                                     price = float(price[1:])
                                     price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
-                                    #print(price , ends="")
+                                    if Debug:
+                                        print(price , ends="")
                                 except:
                                     pass
                                 pass
 
                     try:
                         link = product.find("a",attrs={"class":"a-link-normal s-link-style a-text-normal"})["href"].strip()
-                        #print(link,end="")
+                        if Debug:
+                            print(link,end="")
                         if "redirect" in link:
                             continue
                     except:
@@ -185,7 +195,6 @@ if __name__ == "__main__":
         search_string = "rtx 3080 ti EVGA"
         obj_list = main_amazon(search_string)
         print(obj_list)
-        
         """
                 product urls:
 
