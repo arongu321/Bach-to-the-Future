@@ -76,13 +76,8 @@ def resort_prep(datA):
     return outerlist
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     # Debugging values.
     deBug = True;
-=======
-    #   Debugging values.
-    deBug = False;
->>>>>>> d0a5f2c4d37ef0b1a0eb611ed5dc6b960bfb1163
     kijiji = True;
     amazon = True;
     ebay = True;
