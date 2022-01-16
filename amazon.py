@@ -7,13 +7,19 @@ import os
 import sys
 from storageBoi import StorageBoi
 from tqdm import tqdm
+import time
 import random
 
 
 def main_amazon(search_string):
    
     # for now the url is hardcoded with the string given by the main.py file
-    headers = {"User-Agent":GET_UA()}
+    headers = {"user-agent":"Googlebot",
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+                'Accept-Encoding': 'none',
+                'Accept-Language': 'en-US,en;q=0.8',
+                'Connection': 'keep-alive'}
     
     s = requests.Session()
     url = "https://www.amazon.com/s?k="+search_string
@@ -76,6 +82,7 @@ def get_page_content(page,headers):
 def get_prod_objects(listings,session,headers):
         object_list = []
         print("Amazon scraper , Number of listings  " + str(len(listings)) + " :")
+        time.sleep(0.2)
         for product in tqdm(listings):
             try:
                 try:
