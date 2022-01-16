@@ -7,24 +7,13 @@ import os
 import sys
 from storageBoi import StorageBoi
 from tqdm import tqdm
+import random
+
+
 def main_amazon(search_string):
    
     # for now the url is hardcoded with the string given by the main.py file
-    headers = {
-        
-        'authority': 'www.amazon.com',
-        'pragma': 'no-cache',
-        'cache-control': 'no-cache',
-        'dnt': '1',
-        'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36',
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-        'sec-fetch-site': 'none',
-        'sec-fetch-mode': 'navigate',
-        'sec-fetch-dest': 'document',
-        'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-
-    }
+    headers = {"User-Agent":GET_UA()}
     
     s = requests.Session()
     url = "https://www.amazon.com/s?k="+search_string
@@ -49,6 +38,20 @@ def main_amazon(search_string):
 
     return objs
 
+def GET_UA():
+    uastrings = ["Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36",\
+                "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36",\
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25",\
+                "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0",\
+                "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36",\
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36",\
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/7.1 Safari/537.85.10",\
+                "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko",\
+                "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0",\
+                "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36"\
+                ]
+ 
+    return random.choice(uastrings)
 
 def get_page_content(page,headers):
 
@@ -67,7 +70,7 @@ def get_page_content(page,headers):
        
     else:
         
-        #print("error in get_page_content",status)
+        print("error in get_page_content",status)
         return None
   
 def get_prod_objects(listings,session,headers):
@@ -86,9 +89,10 @@ def get_prod_objects(listings,session,headers):
                     
                         
                     if cflag:
-                        print(name)
+                        pass
                     else:
-                        return None
+                        continue
+                    
                     
                 except:
                     name = None
