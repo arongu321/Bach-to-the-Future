@@ -50,10 +50,10 @@ def resort_prep(datA):
     I made this function literally just to sort the final list of lists.
     """
     outerlist = []
+    datA.sort(key=lambda x: (x.price is None, x.price))
     for i in datA:
         outerlist.append([i.price, i.currency, i.transaction, i.title,
         i.description, i.category, i.url])
-    outerlist.sort()
     return outerlist
 
 if __name__ == "__main__":
