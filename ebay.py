@@ -2,8 +2,26 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from storageBoi import StorageBoi
-from util import get_page
 
+
+
+def get_page(url):
+    try:
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
+
+        if len(list(soup.children)) < 3:
+            print('Invalid response, wait 5s')
+            time.sleep(5)
+            page = requests.get(url)  # try again if the response was incorrect
+            soup = BeautifulSoup(page.content, 'html.parser')
+
+            if len(list(soup.children)) < 3:
+                print('Still invalid, giving up')
+                return None
+        return soup
+    except:
+        return None
 
 
 def get_ebay_page_info(url):
@@ -44,16 +62,22 @@ def get_ebay_page_info(url):
                 transaction_type = "SELLING"
                 #retrieves cost for non-bid/auctioned listings
                 cost = list(body.find_all('div', class_='mainPrice'))[0].find('div').find('span').get_text()
-            unit = "USD"
-            cost = cost.replace("$","")   #strip details
-            cost = cost.replace("US","")
+                    
+            if "US" in cost:
+                unit = "USD"
+                cost = cost.replace("US ","")
+            elif "C" in cost:
+                unit = "CAN"
+                cost = cost.replace("C ","")                
+            cost = float(cost.replace("$",""))   #strip details
+                
         except:
             cost = None
             unit = None
             transaction_type = None
             
-        #format cost to an output that fits storageBoi() function
-        price = [cost, unit, transaction_type]  #assumes all prices are listed as USD     
+    #format cost to an output that fits storageBoi() function
+    price = [cost, unit, transaction_type]  #assumes all prices are listed as USD     
         
 
     #find listing content (new, used, etc.)
@@ -74,7 +98,7 @@ def get_ebay_page_info(url):
         category = None
     
 
-    return{'price':price,'title':title,'category':category,'content':content_description}
+    return{'price':price, 'title':title, 'category':category, 'content':content_description}
 
 
 
@@ -106,6 +130,7 @@ def get_ebay_search_results(url):
     return items
 
 
+
 def ebay_main(search_term, region='edmonton'):
     url_list = get_ebay_search_results(make_ebay_search_url(search_term))
 
@@ -123,3 +148,4 @@ def ebay_main(search_term, region='edmonton'):
 
     print("Done fetching results from ebay.")
     return object_list
+
