@@ -11,6 +11,12 @@ from facebookmarket import fbm_main
 import util
 from tqdm import tqdm
 
+import ui_main
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtWidgets import QApplication, QMainWindow, QGridLayout
+import qdarkgraystyle
+
+
 def the_output_csv(filename, theData):
     """
     The function that will output the data collected as a .csv file type.
@@ -46,15 +52,19 @@ def input_and_name():
     except IndexError:
         outname = "default_name";
     return outname;
+"""
 
-def searchingp():
-    """
     This function will take the user input and feed it to the auxilery codes.
-    """
+
     # Takes input for the search term, which will then be distributed to the
     # aux code.
-    search_term = input("What would you like to search for? \n");
+    # search_term = input("What would you like to search for? \n");
+    # Run ui_main.py
+
+    ui_main.mainWindow
+
     return(search_term);
+"""
 
 def resort_prep(datA):
     """
@@ -77,15 +87,24 @@ def resort_prep(datA):
 
 if __name__ == "__main__":
     # Debugging values.
-    deBug = False;
-    kijiji = True;
-    amazon = True;
-    ebay = True;
-    fbm = True;
+    # deBug = True;
+    # kijiji = True;
+    # amazon = True;
+    # ebay = True;
+    # fbm = True;
     # Finding the name of the output file from the user.
     outname = input_and_name();
+
+    # window() of ui_main.py
+    app = QApplication(sys.argv)
+    app.setStyleSheet(qdarkgraystyle.load_stylesheet())
+    win = ui_main.mainWindow()
+    win.show() # Shows the window
+
+    search_terM, amazon, ebay, fbm, kijiji, deBug = win.search()
+
     # Taking the search term from the user.
-    search_terM = searchingp();
+    # search_terM, amazon, ebay, fbm, kijiji = ui.search()
     # Preloading the list of objects
     databoi = [];
     # Using the kijiji output function to get a list of objects. This list
@@ -123,3 +142,5 @@ if __name__ == "__main__":
     datagirl = resort_prep(databoi);
     # Writing out the list of list as a .csv file.
     the_output_csv(outname, datagirl);
+    
+    sys.exit(app.exec_()) # Closes application when you hit "X"

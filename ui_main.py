@@ -35,7 +35,6 @@ class mainWindow(QMainWindow):
         # Search button
         self.button1 = QtWidgets.QPushButton(self)
         self.button1.setText('Search')
-        # self.button.adjustSize()
         self.button1.move(250,25)
         self.button1.setDisabled(True)
         self.button1.clicked.connect(self.start_search)
@@ -84,11 +83,11 @@ class mainWindow(QMainWindow):
 
         # I could make a button group with QButtonGroup, however I don't have the time.
 
-        # # Super secret debug checkbox
-        # self.check5 = QtWidgets.QCheckBox(self)
-        # self.check5.setText('Super Top Secret Debug')
-        # self.check5.adjustSize()
-        # self.check5.move(250,85)
+        # Super secret debug checkbox
+        self.check5 = QtWidgets.QCheckBox(self)
+        self.check5.setText('Super Top Secret Debug')
+        self.check5.adjustSize()
+        self.check5.move(250,85)
 
 
     def start_search(self):
@@ -96,13 +95,15 @@ class mainWindow(QMainWindow):
         self.search()
 
     def search(self):
-        # sleep(3) # Temporary, call to main.py
-        # self.input.text() is the text of the input box
-        # self.check1.isChecked() - if Amazon checked
-        # self.check2.isChecked() - if eBay checked
-        # self.check3.isChecked() - if FB Marketplace checked
-        # self.check4.isChecked() - if Kijiji checked
+        input_text =  self.input.text() # is the text of the input box
+        amazon = self.check1.isChecked() # if Amazon checked
+        eBay = self.check2.isChecked() # if eBay checked
+        fbm = self.check3.isChecked() # if FB Marketplace checked
+        kijiji =  self.check4.isChecked() # if Kijiji checked
+        deBug =  self.check5.isChecked() # if Debug checked
         self.finished_search()
+        return input_text, amazon, eBay, fbm, kijiji, deBug
+
 
     def finished_search(self):
         self.button1.setDisabled(False)
