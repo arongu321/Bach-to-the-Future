@@ -51,10 +51,10 @@ def resort_prep(datA):
     """
     outerlist = []
     for i in datA:
-        buff = i.outlist()
-        outerlist+=(buff)
-    outerlist.sort();
-    return outerlist;
+        outerlist+=[i.price, i.currency, i.transaction, i.title,
+        i.description, i.category, i.url]
+    outerlist.sort()
+    return outerlist
 
 if __name__ == "__main__":
     outname = input_and_name();
