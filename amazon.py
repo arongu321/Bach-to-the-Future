@@ -19,6 +19,8 @@ def main_amazon(search_string):
     except:
         print("the url didn't work :(")
         url = None
+        page = None
+
     if page !=  None:
         listings = get_page_content(page)
     else:
