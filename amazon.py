@@ -82,7 +82,7 @@ def get_prod_objects(listings):
                 continue
             try:
                 price = product.find("span",attrs={"class":"a-offscreen"}).text.strip() 
-                price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
+                price = float(price[1:]) if float(price[1:]) else 0
                 if Debug:
                     print(price,end="")
             except:
@@ -93,9 +93,9 @@ def get_prod_objects(listings):
                     except:
                         try:
                             price = float(price[1:])
-                            price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
+                            price = float(price[1:]) if float(price[1:]) else 0
                             if Debug:
-                                print(price , ends="")
+                                print(price , end="")
                         except:
                             pass
                         pass
@@ -132,7 +132,7 @@ def get_prod_objects(listings):
                             content += i.find("span").text.strip()
                     
                     # We have the description and now just need to export the object using storageBoi
-                storage_object = StorageBoi(pricE = price ,urL = "https://amazon.com/"+link , descriptioN= content , titlE = name , categorY = category, datE = None )
+                storage_object = StorageBoi(pricE = [price, "CAD", "SELLING"] ,urL = "https://amazon.com/"+link , descriptioN= content , titlE = name , categorY = category, datE = None )
                 object_list += [storage_object]    
             else:
                 continue
