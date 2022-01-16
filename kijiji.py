@@ -65,6 +65,7 @@ def get_kijiji_page_info(url):
         listing_type = 'SELLING'
 
     if price != None and type(price) == str:
+        price = price.replace(',','')
         price = float(price[1:])
 
     if wanted:
@@ -125,7 +126,7 @@ if __name__ == "__main__":
     pass
     #url_list = get_kijiji_search_results(make_kijiji_search_url('amd'))
 
-    print(get_kijiji_page_info('https://www.kijiji.ca/v-computer-components/calgary/i7-7700k-delidded/1583398754'))
+    print(get_kijiji_page_info('https://www.kijiji.ca/v-computer-components/calgary/msi-ventus-3x-rtx-3090-lightly-used-warranty/1602067136'))
     #print(get_kijiji_page_info('https://www.kijiji.ca/v-baby-clothes-9-12-months/edmonton/looking-for-free-baby-clothing-and-blankets-only/1594926129'))
 
 
