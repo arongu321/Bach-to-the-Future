@@ -114,7 +114,7 @@ def get_ebay_search_results(url):
 def ebay_main(search_term, region='edmonton'):
     url_list = get_ebay_search_results(make_ebay_search_url(search_term))
     object_list = []
-    print("Found " + str(len(url_list)) + " listings on ebay. Search term : " + search_term + " Region : " + 'n/a')
+    print("Found " + str(len(url_list)) + " listings on eBay. Search term : " + search_term + " Region : " + 'n/a')
     for url in tqdm(url_list):
         #time.sleep(0.5)
         attribute_dict = get_ebay_page_info(url)
