@@ -8,14 +8,16 @@ from kijiji import kijiji_main
 from amazon import main_amazon
 from ebay import ebay_main
 from facebookmarket import fbm_main
+import util
 
 def the_output_csv(filename, theData):
     """
     The function that will output the data collected as a .csv file type.
     """
     address = "%s.csv"%(filename);
-    headerBoi = ["Price", "Currency", "Transaction Type", "Title",
-    "Description", "Category", "Date Posted", "Website", "Link"];
+    headerBoi = ["Converted Price","Currency", "" ,"Price", "Currency",
+    "Transaction Type", "Title", "Description", "Category", "Date Posted",
+    "Website", "Link"];
     with open(address, 'w', encoding = 'utf-8', newline='') as fout:
         writer = csv.writer(fout);
         writer.writerow(headerBoi); # Prints out the headers for the data.
@@ -58,13 +60,16 @@ def resort_prep(datA):
     """
     #   Premaking an empty list so that we can append lists of values into it.
     outerlist = []
+    for i in datA:
+        i.convertedPrice = util.convert(from_currency=i.currency,to_currency='USD',amount=i.price )
     #   The sorting algorithm that sorts the price from lowest to highest, but
     #   also pushes None to the back of the list.
-    datA.sort(key=lambda x: (x.price is None, x.price))
+    datA.sort(key=lambda x: (x.convertedPrice is None, x.convertedPrice))
     #   Shoving the data into a list in the larger return list.
     for i in datA:
-        outerlist.append([i.price, i.currency, i.transaction, i.title,
-        i.description, i.category, i.date, i.website, i.url])
+        outerlist.append([i.convertedPrice, i.usd, " ", i.price, i.currency,
+        i.transaction, i.title, i.description, i.category, i.date, i.website,
+        i.url])
     return outerlist
 
 if __name__ == "__main__":
