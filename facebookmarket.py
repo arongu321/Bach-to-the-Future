@@ -6,6 +6,8 @@ def get_fbm_page_info(url):
     category = url[22:].split('/')[0]
 
     soup = get_page(url)
+    for title in soup.find_all('title'):
+        print(title.get_text())
 
     print(str(soup))
 
@@ -18,7 +20,6 @@ def get_fbm_page_info(url):
         body = list(html.children)[3]
     except:
         return None
-
     print(body)
 
 if __name__ == "__main__":
