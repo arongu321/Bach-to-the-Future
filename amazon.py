@@ -1,9 +1,8 @@
-from distutils.log import error
-from msilib.schema import Error
+
 from re import search
 from turtle import title
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup , SoupStrainer
 import csv
 import os
 import sys
@@ -18,6 +17,7 @@ def main_amazon(search_string):
     url = "https://www.amazon.com/s?k="+search_string
     try:
         page = s.get(url,headers = headers)
+        
     except:
         print("the url didn't work :(")
         url = None
@@ -103,13 +103,17 @@ def get_prod_objects(listings,session):
                 except:
                     continue
                 if product_desc.status_code == 200:
-                        soup_desc = BeautifulSoup(product_desc.content, "html.parser")
-                        try:                    
+                        soup_desc = BeautifulSoup(product_desc.content, "html.parser" )
+                        try:  
+                            #strainer = SoupStrainer("div")
+                            #soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)                  
                             description = soup_desc.find("div",attrs={"data-feature-name":"productDescription"})
                         
                             content = description.find("div",attrs={"id":"productDescription"}).find("span").text.strip()
                             
                         except:
+                            #strainer = SoupStrainer("table")
+                            #soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)                  
                             description = soup_desc.findAll("table",attrs={"class":"a-bordered a-horizontal-stripes aplus-tech-spec-table"})
                             content = ""
                             for element in description:
