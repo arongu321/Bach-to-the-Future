@@ -12,7 +12,7 @@ def the_output_csv(filename, theData):
     """
     address = "%s.csv"%(filename);
     headerBoi = ["Price", "Currency", "Transaction Type", "Title",
-    "Description", "Category", "Link"];
+    "Description", "Category", "Date Posted", "Link"];
     with open(address, 'w') as fout:
         writer = csv.writer(fout);
         writer.writerow(headerBoi); #   Prints out the headers for the data.
@@ -64,7 +64,8 @@ if __name__ == "__main__":
     search_terM = searchingp();
     #   Preloading the list of objects
     databoi = [];
-    #   Using the kijiji output function to get a list of objects.
+    #   Using the kijiji output function to get a list of objects. This list
+    #   is immeidately extended into the 
     kijiji_list = kijiji_main(search_terM);
     databoi.extend(kijiji_list);
     if deBug:
