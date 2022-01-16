@@ -8,7 +8,7 @@ Instructions on Running Program:
   4. Install the latest version of Firefox.
   5. Ensure <filename>.csv application is not open and if it is open, close the file.
   6. Type python3 main.py <filename> on the command line and run.
-  7. If filename is not inputted on command line, the output excel file name will be defaultname.csv.
+  7. If filename is not inputted on command line, the output excel file name will be default_name.csv.
   8. Type a search term for the specified product and press enter.
   9. Progress bar of listings for each website will be shown and an excel file will be outputted in the Bach-to-the-Future repository.
   
