@@ -48,7 +48,7 @@ def main_amazon(search_string):
     else:
         return None
 
-    print(objs)
+    return objs
 
 
 def get_page_content(page,headers):
