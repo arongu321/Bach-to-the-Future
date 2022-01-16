@@ -69,7 +69,7 @@ def resort_prep(datA):
 
 if __name__ == "__main__":
     #   Debugging values.
-    deBug = True;
+    deBug = False;
     kijiji = True;
     amazon = True;
     ebay = True;
