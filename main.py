@@ -24,6 +24,7 @@ def the_output_csv(filename, theData):
             try:
                 writer.writerow(i); #   Shoving out data.
             except:
+                print("Bad data: ")
                 print(i)
 
 def input_and_name():
