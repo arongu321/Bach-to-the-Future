@@ -1,6 +1,3 @@
-
-from encodings import search_function
-from turtle import title
 import requests
 from bs4 import BeautifulSoup , SoupStrainer
 import csv
