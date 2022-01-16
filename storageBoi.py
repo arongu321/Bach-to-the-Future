@@ -24,6 +24,8 @@ class StorageBoi:
         self.category = categorY;
         self.date = datE;
         self.website = websitE;
+        self.convertedPrice = None;
+        self.usd = 'USD';
     
     def outlist(self):
         return [self.price, self.currency, self.transaction, self.title,
