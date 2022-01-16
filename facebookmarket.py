@@ -39,6 +39,4 @@ def get_fbm_page_info(url):
 
 if __name__ == "__main__":
     url = "https://www.facebook.com/marketplace/item/205016458501904"
-
-    #get_fbm_page_info(url)
     print(get_fbm_page_info(url))
