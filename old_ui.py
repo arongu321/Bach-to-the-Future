@@ -7,6 +7,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QGridLayout
 import sys
 import qdarkgraystyle
+from time import sleep
 
 class mainWindow(QMainWindow):
     def __init__(self):
@@ -16,45 +17,100 @@ class mainWindow(QMainWindow):
         # (0,0) is the top left corner of screen
         # .setGeometry(xpos, ypos, width, height)
         # self.setGeometry(300, 300, 1500, 1000)
-        self.setWindowTitle("Super basic UI test with widgets")
+        self.setWindowTitle("Listing Web Scraper 3000")
         self.setGeometry(1000,1000, 400, 400)
         self.initUI()
 
 
     def initUI(self):
         # Widgets that we want in the window (labels, etc)
+
+        # Label
         self.label = QtWidgets.QLabel(self)
         self.label.setText('Type something into the box!')
         self.label.adjustSize()
-        self.label.move(25,25)
-        
+        self.label.move(25,85)
+
+
+        # Search button
+        self.button1 = QtWidgets.QPushButton(self)
+        self.button1.setText('Search')
+        # self.button.adjustSize()
+        self.button1.move(250,25)
+        self.button1.setDisabled(True)
+        self.button1.clicked.connect(self.start_search)
+        self.button1.setDisabled(True)
+
+
         # Input line
         self.input = QtWidgets.QLineEdit(self)
         self.input.setDragEnabled(True) # Can drag text within text box, as well as copy and paste
-        self.input.setPlaceholderText("What are you looking for?")
-        self.input.resize(250,30)
-        self.input.move(25,100)
-        self.input.returnPressed.connect(self.update_text) # Hit enter
+        self.input.setPlaceholderText('What are you looking for?')
+        self.input.resize(200,30)
+        self.input.move(25,25)
+        #FIXME When you enter text, and then empty self.input, button1 is not disabled.
+        self.input.textChanged.connect(self.checkdisableButton)
+        if not self.input.text():
+            self.button1.setDisabled(True)
 
-        # Reset text button
-        self.button = QtWidgets.QPushButton(self)
-        self.button.setText('Press me to reset the label!')
-        self.button.adjustSize()
-        self.button.move(200,25)
-        self.button.clicked.connect(self.reset_text) # Reset
 
-    
-    #def clicked(self):
-    #    self.label.setText("THIS LABEL IS NOW CLICKED OR ENTERED (not being used right now)")
-    #    self.update()
+        # Amazon checkbox
+        self.check1 = QtWidgets.QCheckBox(self)
+        self.check1.setText('Amazon')
+        self.check1.adjustSize()
+        self.check1.move(25,125)
+        self.check1.stateChanged.connect(self.checkdisableButton)
+
+        # eBay checkbox
+        self.check2 = QtWidgets.QCheckBox(self)
+        self.check2.setText('eBay')
+        self.check2.adjustSize()
+        self.check2.move(25,165)
+        self.check2.stateChanged.connect(self.checkdisableButton)
+
+        # FB Marketplace checkbox
+        self.check3 = QtWidgets.QCheckBox(self)
+        self.check3.setText('Facebook Marketplace')
+        self.check3.adjustSize()
+        self.check3.move(25,205)
+        self.check3.stateChanged.connect(self.checkdisableButton)
+
+        # Kijiji checkbox
+        self.check4 = QtWidgets.QCheckBox(self)
+        self.check4.setText('Kijiji')
+        self.check4.adjustSize()
+        self.check4.move(25,245)
+        self.check4.stateChanged.connect(self.checkdisableButton)
+
+        # I could make a button group with QButtonGroup, however I don't have the time.
+
+        # Super secret debug checkbox
+        self.check5 = QtWidgets.QCheckBox(self)
+        self.check5.setText('Super Top Secret Debug')
+        self.check5.adjustSize()
+        self.check5.move(250,85)
 
     def reset_text(self):
         self.label.setText('Type something into the box!')
         self.update()
 
-    def update_text(self):
-        self.label.setText(self.input.text()) # Gets text and updates label after pressing enter
-        self.update()
+    def start_search(self):
+        if len(self.input.text()) > 0: # Commence search if nonempty input 
+            self.button1.setText('Searching...')
+            self.update()
+            sleep(3) # Temporary, call to main.py
+            self.finished_search()
+
+    def finished_search(self):
+        self.button1.setDisabled(False)
+        self.button1.setText('Search again...')
+        pass     
+
+    def checkdisableButton(self):
+        if (self.input.text() != '') and (self.check1.isChecked() or self.check2.isChecked() or self.check3.isChecked() or self.check4.isChecked()):
+            self.button1.setDisabled(False)
+        else:
+            self.button1.setDisabled(True)
 
     def update(self):
         self.label.adjustSize()
