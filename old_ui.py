@@ -27,9 +27,9 @@ class mainWindow(QMainWindow):
 
         # Label
         self.label = QtWidgets.QLabel(self)
-        self.label.setText('Type something into the box,\nand check one of the following!')
+        self.label.setText('Type something into the box!')
         self.label.adjustSize()
-        self.label.move(25,80)
+        self.label.move(25,85)
 
 
         # Search button
@@ -39,6 +39,7 @@ class mainWindow(QMainWindow):
         self.button1.move(250,25)
         self.button1.setDisabled(True)
         self.button1.clicked.connect(self.start_search)
+        self.button1.setDisabled(True)
 
 
         # Input line
@@ -49,6 +50,8 @@ class mainWindow(QMainWindow):
         self.input.move(25,25)
         #FIXME When you enter text, and then empty self.input, button1 is not disabled.
         self.input.textChanged.connect(self.checkdisableButton)
+        if not self.input.text():
+            self.button1.setDisabled(True)
 
 
         # Amazon checkbox
@@ -89,12 +92,20 @@ class mainWindow(QMainWindow):
 
 
     def start_search(self):
+<<<<<<< HEAD
         self.button1.setText('Searching...')
         self.search()
 
     def search(self):
         # sleep(3) # Temporary, call to main.py
         self.finished_search()
+=======
+        if len(self.input.text()) > 0: # Commence search if nonempty input 
+            self.button1.setText('Searching...')
+            self.update()
+            sleep(3) # Temporary, call to main.py
+            self.finished_search()
+>>>>>>> 4d37b420522c95117b42d15baabd9ee5ca52e124
 
     def finished_search(self):
         self.button1.setDisabled(False)
