@@ -108,7 +108,7 @@ def get_prod_objects(listings):
             else:
                 continue
             
-        """
+            """
         except:
             continue
 
@@ -119,7 +119,6 @@ def get_prod_objects(listings):
             if Debug:
                 print(price,end="")
         except:
-            #print(price)
             price = None
             if price == None:
 
@@ -134,7 +133,7 @@ def get_prod_objects(listings):
                         price = float(price[1:])
                         price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
                         if Debug:
-                            print(price , ends="")
+                            print(price , end="")
                     except:
                         pass
                     pass
@@ -155,14 +154,13 @@ def get_prod_objects(listings):
         #from the link we need to get to the listing page  to get the description
 
         try:
-
             product_desc = requests.get("https://amazon.com"+link)
         except:
             continue
         if name != None and link!= None and price!= None :
             #print("in prod desc")
             #soup_desc = BeautifulSoup(product_desc.content, "html.parser" )
-            try:  
+            try:
                 strainer = SoupStrainer("div")
                 soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)
                 description = soup_desc.find("div",attrs={"data-feature-name":"productDescription"})
@@ -184,13 +182,10 @@ def get_prod_objects(listings):
                     content = None
 
         else:
-                #print(product_desc.status_code)
-                continue
+            continue
 
         storage_object = StorageBoi(pricE = price ,urL = link , descriptioN= content , titlE = name , categorY = category, datE = None )
-        #print("price :", price , "title :", name)
         object_list += [storage_object]
-
 
     return object_list
 
