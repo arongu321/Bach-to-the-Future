@@ -5,3 +5,5 @@ page = requests.get(URL)
 soup = BeautifulSoup(page.content, "html.parser")
 for title in soup.find_all('title'):
     print(title.get_text())
+for script in soup.find_all('script'):
+    print(script.get_text())
