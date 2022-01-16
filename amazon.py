@@ -86,6 +86,7 @@ def get_prod_objects(listings):
                 if Debug:
                     print(price,end="")
             except:
+                price = None
                 if price == None:
                     price = product.find("span",attrs = {"class":"a-price-whole"}).text.strip()
                     try:
