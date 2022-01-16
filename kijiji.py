@@ -27,17 +27,22 @@ def get_kijiji_page_info(url):
     except:
         currency = None
     try:
-        title = head.find('title').get_text().split('|')[0]
+        title = body.find_all('div', class_='mainColumn-1522885425')[0].find('div').find('h1').get_text()
     except:
-        title = None
+        try:
+            title = head.find('title').get_text().split('|')[0]
+        except:
+            title = None
     try:
         content = list(body.find_all('div', class_='descriptionContainer-231909819'))[0].find('div').get_text()
     except:
         content = None
-    #try:
-    #    print(list(body.find_all('script', type_='text/javascript')))
-    #except:
-    #    wanted = False
+    try:
+        wanted = body.find_all('div', class_='mainColumn-1522885425')[0].find('div').find('h1').get_text()[:6]
+        if wanted == "Wanted":
+            wanted = True
+    except:
+        wanted = False
 
     if price == 'Free' or (price == None and category == "v-free-stuff"):
         price = 0
@@ -54,8 +59,13 @@ def get_kijiji_page_info(url):
         currency = 'CAD'
     else:
         listing_type = 'SELLING'
+
     if price != None:
         price = float(price[1:])
+
+    if wanted:
+        listing_type = 'BUYING'
+
     return{'price': [price, currency, listing_type], 'title': title, 'category': category, 'content': content}
 
 
@@ -66,7 +76,6 @@ def make_kijiji_search_url(search_string, region='edmonton', ):
 
     region_dict = {'edmonton': 'k0c10l1700203',
                    'calgary': 'k0c10l1700199',
-                   ''
                    'alberta': 'k0c10l9003',
                    'canada': 'k0l0',
 
@@ -112,7 +121,7 @@ if __name__ == "__main__":
     pass
     #url_list = get_kijiji_search_results(make_kijiji_search_url('amd'))
 
-    print(get_kijiji_page_info('https://www.kijiji.ca/v-desktop-computers/city-of-toronto/looking-for-i5-below-8-9th-gen-intel-cpu/1594701386'))
+    print(get_kijiji_page_info('https://www.kijiji.ca/v-computer-components/calgary/wanted-z690-i-mini-itx-motherboard/1602071415'))
     #print(get_kijiji_page_info('https://www.kijiji.ca/v-baby-clothes-9-12-months/edmonton/looking-for-free-baby-clothing-and-blankets-only/1594926129'))
 
 
