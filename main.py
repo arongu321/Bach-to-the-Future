@@ -7,6 +7,7 @@ import bs4
 from kijiji import kijiji_main
 from amazon import main_amazon
 from ebay import ebay_main
+from facebookmarket import fbm_main
 
 def the_output_csv(filename, theData):
     """
@@ -72,7 +73,7 @@ if __name__ == "__main__":
     kijiji = True;
     amazon = True;
     ebay = True;
-    fbm = False;
+    fbm = True;
     #   Finding the name of the output file from the user.
     outname = input_and_name();
     #   Taking the search term from the user.
@@ -103,6 +104,12 @@ if __name__ == "__main__":
             databoi.extend(ebay_list);
         if deBug:
             print(ebay_list);
+    if fbm:
+        fbm_list = fbm_main(search_terM);
+        if fbm_list != None:
+            databoi.extend(fbm_list);
+        if deBug:
+            print(fbm_list);
     #   Sending the list of objects to be sorted and converted to a list of
     #   lists.
     datagirl = resort_prep(databoi);
