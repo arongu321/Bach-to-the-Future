@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from storageBoi import StorageBoi
+from util import get_page
 from tqdm import tqdm
 
 
