@@ -4,6 +4,7 @@ import time
 from storageBoi import StorageBoi
 from util import get_page
 from datetime import datetime
+from tqdm import tqdm
 
 def get_kijiji_page_info(url):
     category = url[22:].split('/')[0]
@@ -126,12 +127,12 @@ def kijiji_main(search_term, region='edmonton'):
 
     print("Found " + str(len(url_list)) + " listings on Kijiji. Search term : " + search_term + " Region : " + region)
 
-    for i in range(len(url_list)):
-        time.sleep(0.5)
-        attribute_dict = get_kijiji_page_info(url_list[i])
+    for url in tqdm(url_list):
+        #time.sleep(0.5)
+        attribute_dict = get_kijiji_page_info(url)
 
         if attribute_dict:
-            container = StorageBoi(pricE=attribute_dict['price'], urL=url_list[i], titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'], datE=attribute_dict['date'])
+            container = StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'], datE=attribute_dict['date'])
             object_list += [container]
 
     print("Done fetching results from Kijiji.")
