@@ -53,11 +53,12 @@ def resort_prep(datA):
     datA.sort(key=lambda x: (x.price is None, x.price))
     for i in datA:
         outerlist.append([i.price, i.currency, i.transaction, i.title,
-        i.description, i.category, i.url])
+        i.description, i.category, i.date, i.url])
     return outerlist
 
 if __name__ == "__main__":
     deBug = True
+    kijiji = True
     #   Finding the name of the output file from the user.
     outname = input_and_name();
     #   Taking the search term from the user.
@@ -65,9 +66,11 @@ if __name__ == "__main__":
     #   Preloading the list of objects
     databoi = [];
     #   Using the kijiji output function to get a list of objects. This list
-    #   is immeidately extended into the 
-    kijiji_list = kijiji_main(search_terM);
-    databoi.extend(kijiji_list);
+    #   is immeidately extended into the databoi. Also the flag for Kijiji
+    #   must be True for Kijiji listing to be added to the final output.
+    if kijiji:
+        kijiji_list = kijiji_main(search_terM);
+        databoi.extend(kijiji_list);
     if deBug:
         print(kijiji_list);
 
