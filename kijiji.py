@@ -52,7 +52,7 @@ def get_kijiji_page_info(url):
     if price == 'Free' or (price == None and category == "v-free-stuff"):
         price = 0
         listing_type = 'FREE'
-    elif price.lower() == '':
+    elif price and price.lower() == '':
         pass
 
     if price == 0:
@@ -126,12 +126,12 @@ def kijiji_main(search_term, region='edmonton'):
 
     print("Found " + str(len(url_list)) + " listings on Kijiji. Search term : " + search_term + " Region : " + region)
 
-    for url in url_list:
+    for i in range(len(url_list)):
         time.sleep(0.5)
-        attribute_dict = get_kijiji_page_info(url)
+        attribute_dict = get_kijiji_page_info(url_list[i])
 
         if attribute_dict:
-            container = StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'], datE=attribute_dict['date'])
+            container = StorageBoi(pricE=attribute_dict['price'], urL=url_list[i], titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'], datE=attribute_dict['date'])
             object_list += [container]
 
     print("Done fetching results from Kijiji.")
@@ -143,7 +143,7 @@ if __name__ == "__main__":
 
     start = datetime.now()
 
-    print(get_kijiji_page_info('https://www.kijiji.ca/v-computer-components/calgary/msi-ventus-3x-rtx-3090-lightly-used-warranty/1602067136'))
+    print(get_kijiji_page_info('https://www.kijiji.ca/v-computer-components/calgary/vega-56-gaming-oc-8g/1601122506'))
 
     end = datetime.now()
 
