@@ -16,7 +16,7 @@ def get_fbm_page_info(url):
         return None
 
     try:
-        price = json.loads(soup.find_all('script')[1].get_text())['offers']['price']
+        price = float(json.loads(soup.find_all('script')[1].get_text())['offers']['price'])
     except:
         price = None
 
