@@ -57,19 +57,18 @@ def resort_prep(datA):
     return outerlist
 
 if __name__ == "__main__":
+    deBug = True
+    #   Finding the name of the output file from the user.
     outname = input_and_name();
+    #   Taking the search term from the user.
     search_terM = searchingp();
-    # obj1 = StorageBoi(pricE = [420, 'CAD', 'BUYING'], urL = 'website',
-    # titlE = 'Thing', descriptioN= 'fdslakfjdsklfjsdklfjsdklfjsdklj',
-    # categorY = 'Yormum')
-    # obj2 = StorageBoi(pricE = [69, 'CAD', 'BUYING'], urL = 'website',
-    # titlE = 'Thing2', descriptioN= 'fdsdasfggfjsdklfjsdklj',
-    # categorY = 'Yormum')
-    # obj3 = StorageBoi()
-    kijiji_list = kijiji_main(search_terM);
-    print(kijiji_list);
-    # test_list = [obj1, obj2, obj3]
+    #   Preloading the list of objects
     databoi = [];
+    #   Using the kijiji output function to get a list of objects.
+    kijiji_list = kijiji_main(search_terM);
     databoi.extend(kijiji_list);
+    if deBug:
+        print(kijiji_list);
+
     datagirl = resort_prep(databoi);
     the_output_csv(outname, datagirl);
