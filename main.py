@@ -65,7 +65,7 @@ def resort_prep(datA):
 if __name__ == "__main__":
     deBug = True;
     kijiji = True;
-    amazon = True;
+    amazon = False;
     ebay = True;
     fbm = False;
     #   Finding the name of the output file from the user.
