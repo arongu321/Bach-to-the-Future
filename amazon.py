@@ -1,8 +1,11 @@
+from distutils.log import error
+from msilib.schema import Error
 from re import search
 import requests
 from bs4 import BeautifulSoup
 import csv
 import os
+import sys
     
 
 def main_amazon(search_string):
@@ -34,7 +37,7 @@ def get_page_content(page):
     if status == 200:
         
         soup = BeautifulSoup(page.content , "html.parser")
-        #print(soup)
+       
         try:
             listings = soup.findAll("div",attrs = {"class":"s-result-item"})[0:-2]
         except:
@@ -49,19 +52,21 @@ def get_page_content(page):
   
 def get_prod_objects(listings,session):
     try:
-        for product in listings:
+        for product in listings[:2]:
             try:
                 name = product.find("span",attrs={"class":"a-size-medium"}).text.strip()
-                search_list = search_string.split()
+                #search_list = search_string.split()
+                """
                 for term in search_list:
                     if term  in name.split():
                         cflag = True
-                        
+                 
                     
                 if cflag:
                     print(name)
                 else:
                     return None
+                """
             except:
                 name = None
 
@@ -82,8 +87,19 @@ def get_prod_objects(listings,session):
             product_desc = session.get("https://amazon.com"+link,headers = headers)
             if product_desc.status_code == 200:
                     soup_desc = BeautifulSoup(product_desc.content, "html.parser")
-                    description = soup_desc.find("div",attrs={"data-feature-name":"productDescription"})
-                    print(description.find("div",attrs={"id":"productDescription"}).find("span").text.strip())
+                    try:                    
+                        description = soup_desc.find("div",attrs={"data-feature-name":"productDescription"})
+                    
+                        description = description.find("div",attrs={"id":"productDescription"}).find("span").text.strip()
+                    except:
+                        description = soup_desc.findAll("table",attrs={"class":"a-bordered a-horizontal-stripes aplus-tech-spec-table"})
+                        content = ""
+                        for element in description:
+                            for i in element.findAll("td"):
+                                content += i.find("span").text.strip()
+                        print(content)
+                        # we have the description and now just need to export the object using storageBoi
+                        
 
             else:
                     print(product_desc.status_code)
@@ -91,6 +107,8 @@ def get_prod_objects(listings,session):
             
     except:
         print("error in get_prod_objects")
+        print(sys.stderr())
+        print(len(listings))
         return None
     return 0
 

@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import time
 
 
 def get_page(url):
@@ -88,26 +89,32 @@ def get_ebay_page_info(url):
     except:
         category = None
     
-    
+
     return(price,url,title,content_description,category)
 
 
 
+def make_ebay_search_url(search_string, region='edmonton', ):
+    search_string = search_string.lower().replace(' ', '%20')
+
+    #with eBay, no region necessary
+    print('Searching in North America.')
+
+    url = "https://www.ebay.ca/sch/i.html?_nkw=" + search_string 
+
+    return url
 
 
 
+def get_ebay_search_results(url):
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    #html = list(soup.children)[2]
+    #head = list(html.children)[1]
+    #body = list(html.children)[3]
+
+    return [i.find('a')['href'] for i in list(soup.find_all('div', class_='s-item__image'))]
 
 
 
-
-
-
-
-#auctioned example
-#url ='https://www.ebay.ca/itm/144367449821?hash=item219cf876dd:g:TlcAAOSwO~Jh25v9'
-
-#non-auctioned example
-url = 'https://www.ebay.ca/itm/144273803417?hash=item2197638899:g:ww4AAOSwRZphgcUM'
-
-
-print(get_ebay_page_info(url))
