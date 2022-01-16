@@ -26,17 +26,17 @@ def get_page(url):
 # from https://data-flair.training/blogs/currency-converter-python/
 def convert(from_currency, to_currency='USD', amount=None):
     data = requests.get('https://api.exchangerate-api.com/v4/latest/USD').json()
+    if type(amount) == str:
+        try:
+            amount.replace(',', '')
+            amount = float(amount)
+        except:
+            amount = None
+
     if amount == 0:
         return 0
     elif not amount:
         return None
-
-    if type(amount) == str:
-        try:
-            amount.replace(',', '')
-            amount = int(amount)
-        except:
-            amount = None
 
     currencies = data['rates']
     initial_amount = amount
