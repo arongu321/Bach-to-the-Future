@@ -33,16 +33,15 @@ def main_amazon(search_string):
         page = s.get(url,headers = headers)
         
     except:
-        print("the url didn't work :(")
-        url = None
-        page = None
+        
+        return None
 
     if page !=  None:
         listings = get_page_content(page,headers)
     else:
         return None
 #   now we have to parse the listings according to search criteria(for future criteria)
-    if listings[0] != None:
+    if listings != None:
         
         objs = get_prod_objects(listings,s,headers)
     else:
@@ -68,7 +67,7 @@ def get_page_content(page,headers):
        
     else:
         
-        print("error in get_page_content",status)
+        #print("error in get_page_content",status)
         return None
   
 def get_prod_objects(listings,session,headers):
@@ -79,8 +78,8 @@ def get_prod_objects(listings,session,headers):
                 try:
                     
                     name = product.find("span",attrs={"class":"a-size-medium"}).text.strip()
-                    #search_list = search_string.split()
-                    """
+                    search_list = search_string.split()
+                    
                     for term in search_list:
                         if term  in name.split():
                             cflag = True
@@ -90,7 +89,7 @@ def get_prod_objects(listings,session,headers):
                         print(name)
                     else:
                         return None
-                    """
+                    
                 except:
                     name = None
 
@@ -154,7 +153,9 @@ def get_prod_objects(listings,session,headers):
 if __name__ == "__main__":
     
     search_string = "vega 56"
-    main_amazon(search_string)
+    obj_list = main_amazon(search_string)
+    for i in obj_list:
+        print("price :",i.price , "title : ", i.title)
     """
             product urls:
 

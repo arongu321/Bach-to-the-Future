@@ -123,6 +123,9 @@ def get_kijiji_search_results(url):
 def kijiji_main(search_term, region='edmonton'):
     url_list = get_kijiji_search_results(make_kijiji_search_url(search_term))
 
+    if not url_list:
+        url_list = []
+
     object_list = []
 
     print("Found " + str(len(url_list)) + " listings on Kijiji. Search term : " + search_term + " Region : " + region)
