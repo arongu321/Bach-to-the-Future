@@ -17,7 +17,7 @@ class mainWindow(QMainWindow):
         # (0,0) is the top left corner of screen
         # .setGeometry(xpos, ypos, width, height)
         # self.setGeometry(300, 300, 1500, 1000)
-        self.setWindowTitle("Listing Web Scraper 3000")
+        self.setWindowTitle("Listing Scraper 3000")
         self.setGeometry(1000,1000, 400, 400)
         self.initUI()
 
@@ -87,20 +87,19 @@ class mainWindow(QMainWindow):
         self.check5.adjustSize()
         self.check5.move(250,85)
 
-    def reset_text(self):
-        self.label.setText('Type something into the box!')
-        self.update()
 
     def start_search(self):
         self.button1.setText('Searching...')
-        self.update()
-        sleep(3) # Temporary, call to main.py
+        self.search()
+
+    def search(self):
+        # sleep(3) # Temporary, call to main.py
         self.finished_search()
 
     def finished_search(self):
         self.button1.setDisabled(False)
         self.button1.setText('Search again...')
-        pass     
+        pass
 
     def checkdisableButton(self):
         if (self.input.text() != '') and (self.check1.isChecked() or self.check2.isChecked() or self.check3.isChecked() or self.check4.isChecked()):
@@ -108,8 +107,6 @@ class mainWindow(QMainWindow):
         else:
             self.button1.setDisabled(True)
 
-    def update(self):
-        self.label.adjustSize()
 
 def window(): # Defines application called window
     app = QApplication(sys.argv)
