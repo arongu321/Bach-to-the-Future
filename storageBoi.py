@@ -25,4 +25,4 @@ class StorageBoi:
     
     def outlist(self):
         return [self.price, self.currency, self.transaction, self.title,
-         self.description, self.url];
+         self.description, self.category, self.url];
