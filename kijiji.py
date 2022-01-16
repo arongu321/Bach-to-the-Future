@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import time
 from storageBoi import StorageBoi
 from util import get_page
+from datetime import datetime
 
 def get_kijiji_page_info(url):
     category = url[22:].split('/')[0]
@@ -140,7 +141,13 @@ if __name__ == "__main__":
     pass
     #url_list = get_kijiji_search_results(make_kijiji_search_url('amd'))
 
+    start = datetime.now()
+
     print(get_kijiji_page_info('https://www.kijiji.ca/v-computer-components/calgary/msi-ventus-3x-rtx-3090-lightly-used-warranty/1602067136'))
+
+    end = datetime.now()
+
+    print(end-start)
     #print(get_kijiji_page_info('https://www.kijiji.ca/v-baby-clothes-9-12-months/edmonton/looking-for-free-baby-clothing-and-blankets-only/1594926129'))
 
 
