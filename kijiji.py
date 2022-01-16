@@ -54,8 +54,8 @@ def get_kijiji_page_info(url):
         currency = 'CAD'
     else:
         listing_type = 'SELLING'
-
-    price = float(price[1:])
+    if price != None:
+        price = float(price[1:])
     return{'price': [price, currency, listing_type], 'title': title, 'category': category, 'content': content}
 
 
