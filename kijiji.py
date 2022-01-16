@@ -107,8 +107,10 @@ def make_kijiji_search_url(search_string, region='edmonton', ):
     return url
 
 def get_kijiji_search_results(url):
-    page = requests.get(url)
-    soup = BeautifulSoup(page.content, 'html.parser')
+    soup = get_page(url)
+
+    if not soup:
+        return None
 
     html = list(soup.children)[2]
     head = list(html.children)[1]
