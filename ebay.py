@@ -5,26 +5,6 @@ from storageBoi import StorageBoi
 from tqdm import tqdm
 
 
-
-def get_page(url):
-    try:
-        page = requests.get(url)
-        soup = BeautifulSoup(page.content, 'html.parser')
-
-        if len(list(soup.children)) < 3:
-            print('Invalid response, wait 5s')
-            time.sleep(5)
-            page = requests.get(url)  # try again if the response was incorrect
-            soup = BeautifulSoup(page.content, 'html.parser')
-
-            if len(list(soup.children)) < 3:
-                print('Still invalid, giving up')
-                return None
-        return soup
-    except:
-        return None
-
-
 def get_ebay_page_info(url):
     page = requests.get(url)
     soup = get_page(url)
@@ -63,6 +43,8 @@ def get_ebay_page_info(url):
                 transaction_type = "SELLING"
                 #retrieves cost for non-bid/auctioned listings
                 cost = list(body.find_all('div', class_='mainPrice'))[0].find('div').find('span').get_text()
+                if cost == 'Discounted price':   # handle discounted prices
+                    cost = list(body.find_all('div', class_='mainPrice'))[0].find('div').find('span',class_='notranslate').get_text()
                     
             if "US" in cost:
                 unit = "USD"
@@ -102,11 +84,13 @@ def get_ebay_page_info(url):
     return{'price':price, 'title':title, 'category':category, 'content':content_description}
 
 
+
+
 def make_ebay_search_url(search_string, region='edmonton', ):
     search_string = search_string.lower().replace(' ', '%20')
 
     #with eBay, no region necessary
-    print('Searching in North America.')
+    print('Searching Internationally.')
 
     url = "https://www.ebay.ca/sch/i.html?_nkw=" + search_string 
 
@@ -136,7 +120,7 @@ def ebay_main(search_term, region='edmonton'):
 
     object_list = []
 
-    print("Found " + str(len(url_list)) + " listings on ebay. Search term : " + search_term + " Region : " + region)
+    print("Found " + str(len(url_list)) + " listings on ebay. Search term : " + search_term + " Region : " + 'n/a')
 
     for url in tqdm(url_list):
         time.sleep(0.5)
@@ -148,4 +132,3 @@ def ebay_main(search_term, region='edmonton'):
 
     print("Done fetching results from ebay.")
     return object_list
-
