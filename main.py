@@ -12,7 +12,7 @@ def the_output_csv(filename, theData):
     """
     address = "%s.csv"%(filename);
     headerBoi = ["Price", "Currency", "Transaction Type", "Title",
-    "Description", "Link"];
+    "Description", "Category", "Link"];
     with open(address, 'w') as fout:
         writer = csv.writer(fout);
         writer.writerow(headerBoi); #   Prints out the headers for the data.
@@ -49,24 +49,21 @@ def resort_prep(datA):
     """
     I made this function literally just to sort the final list of lists.
     """
-    outlist = []
+    outerlist = []
     for i in datA:
-        outlist.append(i.outlist())
-    outlist.sort();
-    return outlist;
+        buff = i.outlist()
+        outerlist+=(buff)
+    outerlist.sort();
+    return outerlist;
 
 if __name__ == "__main__":
     outname = input_and_name();
     search_terM = searchingp();
-    storage1 = StorageBoi([690, 'CAD', 'Buying'], "Razer", "booki", "cosmo");
-    storage2 = StorageBoi([420, 'USD', 'SELLING'], "cum", "wum", "pum");
-    storage3 = StorageBoi([1000, 'CAD', 'AUCTION'], "slime", "wine",
-    "stories")
 
     kijiji_list = kijiji_main(search_terM);
     print(kijiji_list);
 
-    databoi = [storage1, storage2, storage3];
+    databoi = [];
     databoi.extend(kijiji_list);
     datagirl = resort_prep(databoi);
     #the_output_csv(outname, datagirl);
