@@ -5,6 +5,8 @@ import json
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+from storageBoi import StorageBoi
+from tqdm import tqdm
 
 def get_fbm_page_info(url):
     category = url[22:].split('/')[0]
@@ -71,8 +73,29 @@ def get_fbm_search_results(url):
 
     return urls
 
+def fbm_main(search_term, region='edmonton'):
+    url_list = get_fbm_search_results(make_fbm_search_url(search_term))
+
+    if not url_list:
+        url_list = []
+
+    object_list = []
+
+    print("Found " + str(len(url_list)) + " listings on Facebook Marketplace. Search term : " + search_term + " Region : " + region)
+
+    for url in tqdm(url_list):
+        #time.sleep(0.5)
+        attribute_dict = get_fbm_page_info(url)
+
+        if attribute_dict:
+            container = StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'], datE=attribute_dict['date'])
+            object_list += [container]
+
+    print("Done fetching results from Facebook Marketplace.")
+    return object_list
+
 if __name__ == "__main__":
     #url = "https://www.facebook.com/marketplace/item/205016458501904"
     #print(get_fbm_page_info(url))
 
-    print(get_fbm_search_results(make_fbm_search_url('ryzen')))
+    print(fbm_main('ryzen'))
