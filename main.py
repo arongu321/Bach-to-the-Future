@@ -81,22 +81,22 @@ if __name__ == "__main__":
         kijiji_list = kijiji_main(search_terM);
         if kijiji_list != None:
             databoi.extend(kijiji_list);
-    if deBug:
-        print(kijiji_list);
+        if deBug:
+            print(kijiji_list);
     
     if amazon:
         amazon_list = main_amazon(search_terM);
         if amazon_list != None:
             databoi.extend(amazon_list);
-    if deBug:
-        print(amazon_list);
+        if deBug:
+            print(amazon_list);
 
     if ebay:
         ebay_list = ebay_main(search_terM);
         if ebay_list != None:
             databoi.extend(ebay_list);
-    if deBug:
-        print(ebay_list);
+        if deBug:
+            print(ebay_list);
 
     datagirl = resort_prep(databoi);
     the_output_csv(outname, datagirl);
