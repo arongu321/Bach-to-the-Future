@@ -25,7 +25,7 @@ def the_output_csv(filename, theData):
         # This for loop will go over all lists in the list of list input and
         # output the whole list into the .csv output file.
         print('Creating output file');
-        for i in theData:
+        for i in tqdm(theData):
             try:
                 writer.writerow(i); #   Shoving out data.
             except:
