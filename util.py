@@ -34,6 +34,9 @@ def convert(from_currency, to_currency='USD', amount=None):
     currencies = data['rates']
     initial_amount = amount
 
+    if from_currency == 'CAN':
+        from_currency = 'CAD'
+
     try:
         if from_currency != 'USD':
             amount = amount / currencies[from_currency]
