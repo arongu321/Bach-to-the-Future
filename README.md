@@ -2,7 +2,7 @@ Devpost Submission:
 https://devpost.com/software/web-scraper-3000#updates
 
 Instructions on Running Program:
-  1. Open terminal and change the directory to the Bach-to-the-Future repository.
+  1. Open terminal(preferrably powershell) and change the directory to the Bach-to-the-Future repository.
   2. Ensure requests, bs4, tkinter, tqdm, selenium, PyQt5,  and  qdarkgraystyle libraries are in the current environment. If not, run pip install in terminal.
   3. Install geckodriver (https://github.com/mozilla/geckodriver/releases/) and add its location to PATH.
   4. Install the latest version of Firefox.
@@ -12,3 +12,4 @@ Instructions on Running Program:
   8. Type a search term for the specified product and press enter.
   9. Progress bar of listings for each website will be shown and the .csv file will be outputted in the Bach-to-the-Future repository.
   
+NOTE : The UI is a Mock up , thus not a part of the main project. Future incorporation is possible.
