@@ -83,7 +83,19 @@ def make_kijiji_search_url(search_string, region='edmonton', ):
                    'calgary': 'k0c10l1700199',
                    'alberta': 'k0c10l9003',
                    'canada': 'k0l0',
-
+                   'ontario': 'k0c10l9004',
+                   'quebec': 'k0c10l9001',
+                   'british-columbia': 'k0c10l9007',
+                   'saskatchewan': 'k0c10l9009',
+                   'manitoba': 'k0c10l9006',
+                   'vancouver': 'k0c10l1700287',
+                   'victoria-b': 'k0c10l1700173',
+                   'red-deer': 'k0c10l1700136',
+                   'fort-mcmurray': 'k0c10l1700232',
+                   'city-of-toronto': 'k0c10l1700273',
+                   'ottawa': 'k0c10l1700185',
+                   'ville-de-quebec': 'k0c10l1700124',
+                   'ville-de-montreal': 'k0c10l1700281',
                    }
 
     if region not in region_dict.keys():
