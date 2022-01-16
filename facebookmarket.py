@@ -67,7 +67,10 @@ def get_fbm_search_results(url):
     if not soup:
         return None
 
-    listings = soup.find('div',class_='bq4bzpyk j83agx80 btwxx1t3 lhclo0ds jifvfom9 muag1w35 dlv3wnog enqfppq2 rl04r1d5').find_all('div')
+    try:
+        listings = soup.find('div',class_='bq4bzpyk j83agx80 btwxx1t3 lhclo0ds jifvfom9 muag1w35 dlv3wnog enqfppq2 rl04r1d5').find_all('div')
+    except:
+        return None
 
     urls = []
     for i in listings:

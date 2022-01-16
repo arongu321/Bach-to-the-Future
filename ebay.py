@@ -45,22 +45,25 @@ def get_ebay_page_info(url):
                 if cost == 'Discounted price':   # handle discounted prices
                     cost = list(body.find_all('div', class_='mainPrice'))[0].find('div').find('span',class_='notranslate').get_text()
                     
-            # Currency units shortened
             if "US" in cost:
                 unit = "USD"
                 cost = cost.replace("US ","")
             elif "C" in cost:
-                unit = "CAN"
+                unit = "CAD"
                 cost = cost.replace("C ","")    
-            elif "GBP" in cost:
-                unit = "GBP"
-                cost = cost.replace("GBP ","")    
+            #elif "GBP" in cost:
+            #    unit = "GBP"
+            #    cost = cost.replace("GBP ","")    
             elif "AU" in cost:
-                unit = "AU"
+                unit = "AUD"
                 cost = cost.replace("AU ","")
-            elif "EUR" in cost:
-                unit = "EUR"
-                cost = cost.replace("EUR ","")
+            #elif "EUR" in cost:
+            #    unit = "EUR"
+            #    cost = cost.replace("EUR ","")
+            else:
+                currency_end = cost.find(" ")
+                unit = cost[0:currency_end]
+                cost = cost.replace(unit + " ","")
             cost = float(cost.replace("$","").replace(",",""))   #strip details
                 
         except:

@@ -59,7 +59,7 @@ def get_kijiji_page_info(url):
     if price == 0:
         currency = 'CAD'
 
-    if price == 'Please Contact':
+    if price == 'Please Contact' or price == 'Swap/Trade':
         listing_type = 'CONTACT'
         price = None
         currency = 'CAD'
