@@ -122,4 +122,4 @@ def ebay_main(search_term, region='edmonton'):
             object_list += [container]
 
     print("Done fetching results from ebay.")
-    return attribute_dict
+    return object_list
