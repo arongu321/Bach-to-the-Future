@@ -1,3 +1,18 @@
 
 *.pyc
 bach.csv
+.idea/Bach-to-the-Future.iml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+__pycache__/amazon.cpython-38.pyc
+__pycache__/amazon.cpython-38.pyc
+__pycache__/kijiji.cpython-310.pyc
+__pycache__/kijiji.cpython-38.pyc
+__pycache__/storageBoi.cpython-310.pyc
+__pycache__/storageBoi.cpython-38.pyc
+__pycache__/util.cpython-310.pyc
+__pycache__/util.cpython-38.pyc
+__pycache__/util.cpython-39.pyc
