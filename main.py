@@ -17,12 +17,12 @@ def the_output_csv(filename, theData):
     "Description", "Category", "Date Posted", "Link"];
     with open(address, 'w', encoding = 'utf-8') as fout:
         writer = csv.writer(fout);
-        writer.writerow(headerBoi); #   Prints out the headers for the data.
-        #   This for loop will go over all lists in the list of list input and
-        #   output the whole list into the .csv output file.
+        writer.writerow(headerBoi); # Prints out the headers for the data.
+        # This for loop will go over all lists in the list of list input and
+        # output the whole list into the .csv output file.
         for i in theData:
             try:
-                writer.writerow(i); #   Shoving out data.
+                writer.writerow(i); # Shoving out data.
             except:
                 print("Bad data: ")
                 print(i)
@@ -32,7 +32,7 @@ def input_and_name():
     Determining the name of the output file. Useful when you want to search
     and store data for multiple things.
     """
-    try:    #   Using try because of the potential mess that sys.argv could be
+    try:    # Using try because of the potential mess that sys.argv could be
         if len(sys.argv) > 2:
             print("we only support 1 argument for output names as of now.");
             exit();
@@ -46,8 +46,8 @@ def searchingp():
     """
     This function will take the user input and feed it to the auxilery codes.
     """
-    #   Takes input for the search term, which will then be distributed to the
-    #   aux code.
+    # Takes input for the search term, which will then be distributed to the
+    # aux code.
     search_term = input("What would you like to search for? \n");
     return(search_term);
 

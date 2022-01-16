@@ -6,6 +6,7 @@ from util import get_page
 from tqdm import tqdm
 
 
+
 def get_ebay_page_info(url):
     page = requests.get(url)
     soup = get_page(url)
@@ -52,7 +53,13 @@ def get_ebay_page_info(url):
                 cost = cost.replace("US ","")
             elif "C" in cost:
                 unit = "CAN"
-                cost = cost.replace("C ","")                
+                cost = cost.replace("C ","")    
+            elif "GBP" in cost:
+                unit = "GBP"
+                cost = cost.replace("GBP ","")    
+            elif "AU" in cost:
+                unit = "AU"
+                cost = cost.replace("AU ","")    
             cost = float(cost.replace("$","").replace(",",""))   #strip details
                 
         except:
@@ -83,7 +90,6 @@ def get_ebay_page_info(url):
     
 
     return{'price':price, 'title':title, 'category':category, 'content':content_description}
-
 
 
 
@@ -123,7 +129,8 @@ def ebay_main(search_term, region='edmonton'):
 
     print("Found " + str(len(url_list)) + " listings on ebay. Search term : " + search_term + " Region : " + 'n/a')
 
-    for url in tqdm(url_list):
+    #for url in tqdm(url_list):
+    for url in url_list:
         time.sleep(0.5)
         attribute_dict = get_ebay_page_info(url)
 
