@@ -92,20 +92,12 @@ class mainWindow(QMainWindow):
 
 
     def start_search(self):
-<<<<<<< HEAD
         self.button1.setText('Searching...')
         self.search()
 
     def search(self):
         # sleep(3) # Temporary, call to main.py
         self.finished_search()
-=======
-        if len(self.input.text()) > 0: # Commence search if nonempty input 
-            self.button1.setText('Searching...')
-            self.update()
-            sleep(3) # Temporary, call to main.py
-            self.finished_search()
->>>>>>> 4d37b420522c95117b42d15baabd9ee5ca52e124
 
     def finished_search(self):
         self.button1.setDisabled(False)
