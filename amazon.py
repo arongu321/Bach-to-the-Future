@@ -183,6 +183,7 @@ if __name__ == "__main__":
         
         search_string = "rtx 3080 ti EVGA"
         obj_list = main_amazon(search_string)
+        print(obj_list)
         
         """
                 product urls:
