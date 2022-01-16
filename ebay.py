@@ -28,7 +28,7 @@ def get_ebay_page_info(url):
     
     # Finds cost depending on if listing is auction or not
     try:
-        is_auction = 'bids' in list(body.find_all('div', class_='vi-flex-cta'))[0].get_text()
+        is_auction = 'bid' in (list(body.find_all('div', class_='vi-flex-cta'))[0].get_text() or list(body.find_all('div', class_='lbl vi-startingBidAccColourClass'))[0].get_text())
     except:
         is_auction = None
     
