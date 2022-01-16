@@ -6,7 +6,7 @@ import csv
 import os
 import sys
 from storageBoi import StorageBoi
-
+from tqdm import tqdm
 def main_amazon(search_string):
    
     # for now the url is hardcoded with the string given by the main.py file
@@ -73,7 +73,8 @@ def get_page_content(page,headers):
   
 def get_prod_objects(listings,session,headers):
         object_list = []
-        for product in listings:
+        print("Amazon scraper , Number of listings  " + str(len(listings)) + " :")
+        for product in tqdm(listings):
             try:
                 try:
                     
@@ -95,7 +96,7 @@ def get_prod_objects(listings,session,headers):
 
                 try:
                     price = product.find("span",attrs={"class":"a-offscreen"}).text.strip()
-                    price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "sell"]
+                    price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
                 except:
                     price = None
 
@@ -119,17 +120,17 @@ def get_prod_objects(listings,session,headers):
                 except:
                     continue
                 if product_desc.status_code == 200:
-                        soup_desc = BeautifulSoup(product_desc.content, "html.parser" )
+                        #soup_desc = BeautifulSoup(product_desc.content, "html.parser" )
                         try:  
-                            #strainer = SoupStrainer("div")
-                            #soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)                  
+                            strainer = SoupStrainer("div")
+                            soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)                  
                             description = soup_desc.find("div",attrs={"data-feature-name":"productDescription"})
                         
                             content = description.find("div",attrs={"id":"productDescription"}).find("span").text.strip()
                             
                         except:
-                            #strainer = SoupStrainer("table")
-                            #soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)                  
+                            strainer = SoupStrainer("table")
+                            soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)                  
                             description = soup_desc.findAll("table",attrs={"class":"a-bordered a-horizontal-stripes aplus-tech-spec-table"})
                             content = ""
                             for element in description:
