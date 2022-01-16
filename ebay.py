@@ -129,8 +129,7 @@ def ebay_main(search_term, region='edmonton'):
 
     print("Found " + str(len(url_list)) + " listings on ebay. Search term : " + search_term + " Region : " + 'n/a')
 
-    #for url in tqdm(url_list):
-    for url in url_list:
+    for url in tqdm(url_list):
         time.sleep(0.5)
         attribute_dict = get_ebay_page_info(url)
 
