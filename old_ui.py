@@ -3,7 +3,7 @@
 # pip install pyqt-tools
 # pip install qdarkgraystyle
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QGridLayout
 import sys
 import qdarkgraystyle
@@ -84,11 +84,11 @@ class mainWindow(QMainWindow):
 
         # I could make a button group with QButtonGroup, however I don't have the time.
 
-        # Super secret debug checkbox
-        self.check5 = QtWidgets.QCheckBox(self)
-        self.check5.setText('Super Top Secret Debug')
-        self.check5.adjustSize()
-        self.check5.move(250,85)
+        # # Super secret debug checkbox
+        # self.check5 = QtWidgets.QCheckBox(self)
+        # self.check5.setText('Super Top Secret Debug')
+        # self.check5.adjustSize()
+        # self.check5.move(250,85)
 
 
     def start_search(self):
@@ -97,7 +97,11 @@ class mainWindow(QMainWindow):
 
     def search(self):
         # sleep(3) # Temporary, call to main.py
-        # self.input.text() is the text of the input
+        # self.input.text() is the text of the input box
+        # self.check1.isChecked() - if Amazon checked
+        # self.check2.isChecked() - if eBay checked
+        # self.check3.isChecked() - if FB Marketplace checked
+        # self.check4.isChecked() - if Kijiji checked
         self.finished_search()
 
     def finished_search(self):
@@ -110,6 +114,7 @@ class mainWindow(QMainWindow):
             self.button1.setDisabled(False)
         else:
             self.button1.setDisabled(True)
+            
 
 
 def window(): # Defines application called window
