@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 def get_page(url):
     try:
         page = requests.get(url)
@@ -18,6 +19,7 @@ def get_page(url):
         return soup
     except:
         return None
+
 
 def get_ebay_page_info(url):
     page = requests.get(url)
@@ -88,6 +90,17 @@ def get_ebay_page_info(url):
     
     
     return(price,url,title,content_description,category)
+
+
+
+
+
+
+
+
+
+
+
 
 
 #auctioned example
