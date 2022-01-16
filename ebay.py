@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from storageBoi import StorageBoi
-from tqdm import tqdm
+#from tqdm import tqdm
 
 
 
@@ -63,6 +63,8 @@ def get_ebay_page_info(url):
                 transaction_type = "SELLING"
                 #retrieves cost for non-bid/auctioned listings
                 cost = list(body.find_all('div', class_='mainPrice'))[0].find('div').find('span').get_text()
+                if cost == 'Discounted price':   # handle discounted prices
+                    cost = list(body.find_all('div', class_='mainPrice'))[0].find('div').find('span',class_='notranslate').get_text()
                     
             if "US" in cost:
                 unit = "USD"
@@ -102,11 +104,13 @@ def get_ebay_page_info(url):
     return{'price':price, 'title':title, 'category':category, 'content':content_description}
 
 
+print(get_ebay_page_info('https://www.ebay.ca/itm/284466201175?hash=item423b81c257:g:1CQAAOSwn8VhR1Wa'))
+
 def make_ebay_search_url(search_string, region='edmonton', ):
     search_string = search_string.lower().replace(' ', '%20')
 
     #with eBay, no region necessary
-    print('Searching in North America.')
+    print('Searching Internationally.')
 
     url = "https://www.ebay.ca/sch/i.html?_nkw=" + search_string 
 
@@ -136,9 +140,10 @@ def ebay_main(search_term, region='edmonton'):
 
     object_list = []
 
-    print("Found " + str(len(url_list)) + " listings on ebay. Search term : " + search_term + " Region : " + region)
+    print("Found " + str(len(url_list)) + " listings on ebay. Search term : " + search_term + " Region : " + 'n/a')
 
-    for url in tqdm(url_list):
+    #for url in tqdm(url_list):
+    for url in url_list:
         time.sleep(0.5)
         attribute_dict = get_ebay_page_info(url)
 
@@ -149,3 +154,4 @@ def ebay_main(search_term, region='edmonton'):
     print("Done fetching results from ebay.")
     return object_list
 
+#print(ebay_main('vega 56'))
