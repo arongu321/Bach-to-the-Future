@@ -27,7 +27,7 @@ class mainWindow(QMainWindow):
 
         # Label
         self.label = QtWidgets.QLabel(self)
-        self.label.setText('Type something into the box!')
+        self.label.setText('Type something into the box, and\ncheck at least one of the boxes below!')
         self.label.adjustSize()
         self.label.move(25,85)
 
@@ -97,6 +97,7 @@ class mainWindow(QMainWindow):
 
     def search(self):
         # sleep(3) # Temporary, call to main.py
+        # self.input.text() is the text of the input
         self.finished_search()
 
     def finished_search(self):
