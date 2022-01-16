@@ -59,19 +59,17 @@ def resort_prep(datA):
 if __name__ == "__main__":
     outname = input_and_name();
     search_terM = searchingp();
-    # obj1 = StorageBoi(pricE = [420, 'CAD', 'BUYING'], urL = 'website',
-    # titlE = 'Thing', descriptioN= 'fdslakfjdsklfjsdklfjsdklfjsdklj',
-    # categorY = 'Yormum')
-    # obj2 = StorageBoi(pricE = [69, 'CAD', 'BUYING'], urL = 'website',
-    # titlE = 'Thing2', descriptioN= 'fdsdasfggfjsdklfjsdklj',
-    # categorY = 'Yormum')
-    # obj3 = StorageBoi(pricE = [0, 'CAD', 'FREE'], urL = 'website',
-    # titlE = 'Thing3', descriptioN= 'fdslakfdfsdfjsdklfjsdklfjsdklj',
-    # categorY = 'Yormum')
-    kijiji_list = kijiji_main(search_terM);
-    print(kijiji_list);
-    # test_list = [obj1, obj2, obj3]
+    obj1 = StorageBoi(pricE = [420, 'CAD', 'BUYING'], urL = 'website',
+    titlE = 'Thing', descriptioN= 'fdslakfjdsklfjsdklfjsdklfjsdklj',
+    categorY = 'Yormum')
+    obj2 = StorageBoi(pricE = [69, 'CAD', 'BUYING'], urL = 'website',
+    titlE = 'Thing2', descriptioN= 'fdsdasfggfjsdklfjsdklj',
+    categorY = 'Yormum')
+    obj3 = StorageBoi()
+    # kijiji_list = kijiji_main(search_terM);
+    # print(kijiji_list);
+    test_list = [obj1, obj2, obj3]
     databoi = [];
-    databoi.extend(kijiji_list);
+    databoi.extend(test_list);
     datagirl = resort_prep(databoi);
     the_output_csv(outname, datagirl);
