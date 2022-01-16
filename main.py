@@ -21,7 +21,11 @@ def the_output_csv(filename, theData):
         #   This for loop will go over all lists in the list of list input and
         #   output the whole list into the .csv output file.
         for i in theData:
-            writer.writerow(i); #   Shoving out data.
+            try:
+                writer.writerow(i); #   Shoving out data.
+            except:
+                print("Bad data: ")
+                print(i)
 
 def input_and_name():
     """
@@ -62,7 +66,7 @@ if __name__ == "__main__":
     deBug = True;
     kijiji = True;
     amazon = True;
-    ebay = False;
+    ebay = True;
     fbm = False;
     #   Finding the name of the output file from the user.
     outname = input_and_name();
@@ -91,6 +95,8 @@ if __name__ == "__main__":
         ebay_list = ebay_main(search_terM);
         if ebay_list != None:
             databoi.extend(ebay_list);
+    if deBug:
+        print(ebay_list);
 
     datagirl = resort_prep(databoi);
     the_output_csv(outname, datagirl);

@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from storageBoi import StorageBoi
+from tqdm import tqdm
 
 
 
@@ -69,7 +70,7 @@ def get_ebay_page_info(url):
             elif "C" in cost:
                 unit = "CAN"
                 cost = cost.replace("C ","")                
-            cost = float(cost.replace("$",""))   #strip details
+            cost = float(cost.replace("$","").replace(",",""))   #strip details
                 
         except:
             cost = None
@@ -99,7 +100,6 @@ def get_ebay_page_info(url):
     
 
     return{'price':price, 'title':title, 'category':category, 'content':content_description}
-
 
 
 def make_ebay_search_url(search_string, region='edmonton', ):
@@ -138,7 +138,7 @@ def ebay_main(search_term, region='edmonton'):
 
     print("Found " + str(len(url_list)) + " listings on ebay. Search term : " + search_term + " Region : " + region)
 
-    for url in url_list:
+    for url in tqdm(url_list):
         time.sleep(0.5)
         attribute_dict = get_ebay_page_info(url)
 

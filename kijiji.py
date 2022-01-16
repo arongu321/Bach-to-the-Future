@@ -4,6 +4,7 @@ import time
 from storageBoi import StorageBoi
 from util import get_page
 from datetime import datetime
+from tqdm import tqdm
 
 def get_kijiji_page_info(url):
     category = url[22:].split('/')[0]
@@ -52,7 +53,7 @@ def get_kijiji_page_info(url):
     if price == 'Free' or (price == None and category == "v-free-stuff"):
         price = 0
         listing_type = 'FREE'
-    elif price.lower() == '':
+    elif price and price.lower() == '':
         pass
 
     if price == 0:
@@ -122,12 +123,15 @@ def get_kijiji_search_results(url):
 def kijiji_main(search_term, region='edmonton'):
     url_list = get_kijiji_search_results(make_kijiji_search_url(search_term))
 
+    if not url_list:
+        url_list = []
+
     object_list = []
 
     print("Found " + str(len(url_list)) + " listings on Kijiji. Search term : " + search_term + " Region : " + region)
 
-    for url in url_list:
-        time.sleep(0.5)
+    for url in tqdm(url_list):
+        #time.sleep(0.5)
         attribute_dict = get_kijiji_page_info(url)
 
         if attribute_dict:
@@ -143,7 +147,7 @@ if __name__ == "__main__":
 
     start = datetime.now()
 
-    print(get_kijiji_page_info('https://www.kijiji.ca/v-computer-components/calgary/msi-ventus-3x-rtx-3090-lightly-used-warranty/1602067136'))
+    print(get_kijiji_page_info('https://www.kijiji.ca/v-computer-components/calgary/vega-56-gaming-oc-8g/1601122506'))
 
     end = datetime.now()
 

@@ -6,7 +6,7 @@ import csv
 import os
 import sys
 from storageBoi import StorageBoi
-
+from tqdm import tqdm
 def main_amazon(search_string):
    
     # for now the url is hardcoded with the string given by the main.py file
@@ -33,22 +33,21 @@ def main_amazon(search_string):
         page = s.get(url,headers = headers)
         
     except:
-        print("the url didn't work :(")
-        url = None
-        page = None
+        
+        return None
 
     if page !=  None:
         listings = get_page_content(page,headers)
     else:
         return None
 #   now we have to parse the listings according to search criteria(for future criteria)
-    if listings[0] != None:
+    if listings != None:
         
         objs = get_prod_objects(listings,s,headers)
     else:
         return None
 
-    print(objs)
+    return objs
 
 
 def get_page_content(page,headers):
@@ -68,18 +67,19 @@ def get_page_content(page,headers):
        
     else:
         
-        print("error in get_page_content",status)
+        #print("error in get_page_content",status)
         return None
   
 def get_prod_objects(listings,session,headers):
         object_list = []
-        for product in listings:
+        print("Amazon scraper , Number of listings  " + str(len(listings)) + " :")
+        for product in tqdm(listings):
             try:
                 try:
                     
                     name = product.find("span",attrs={"class":"a-size-medium"}).text.strip()
-                    #search_list = search_string.split()
-                    """
+                    search_list = search_string.split()
+                    
                     for term in search_list:
                         if term  in name.split():
                             cflag = True
@@ -89,13 +89,13 @@ def get_prod_objects(listings,session,headers):
                         print(name)
                     else:
                         return None
-                    """
+                    
                 except:
                     name = None
 
                 try:
                     price = product.find("span",attrs={"class":"a-offscreen"}).text.strip()
-                    price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "sell"]
+                    price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
                 except:
                     price = None
 
@@ -119,17 +119,17 @@ def get_prod_objects(listings,session,headers):
                 except:
                     continue
                 if product_desc.status_code == 200:
-                        soup_desc = BeautifulSoup(product_desc.content, "html.parser" )
+                        #soup_desc = BeautifulSoup(product_desc.content, "html.parser" )
                         try:  
-                            #strainer = SoupStrainer("div")
-                            #soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)                  
+                            strainer = SoupStrainer("div")
+                            soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)                  
                             description = soup_desc.find("div",attrs={"data-feature-name":"productDescription"})
                         
                             content = description.find("div",attrs={"id":"productDescription"}).find("span").text.strip()
                             
                         except:
-                            #strainer = SoupStrainer("table")
-                            #soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)                  
+                            strainer = SoupStrainer("table")
+                            soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)                  
                             description = soup_desc.findAll("table",attrs={"class":"a-bordered a-horizontal-stripes aplus-tech-spec-table"})
                             content = ""
                             for element in description:
@@ -153,7 +153,9 @@ def get_prod_objects(listings,session,headers):
 if __name__ == "__main__":
     
     search_string = "vega 56"
-    main_amazon(search_string)
+    obj_list = main_amazon(search_string)
+    for i in obj_list:
+        print("price :",i.price , "title : ", i.title)
     """
             product urls:
 
