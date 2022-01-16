@@ -60,7 +60,7 @@ def get_kijiji_page_info(url):
     else:
         listing_type = 'SELLING'
 
-    if price != None:
+    if price != None and type(price) == str:
         price = float(price[1:])
 
     if wanted:
