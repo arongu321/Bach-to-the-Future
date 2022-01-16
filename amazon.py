@@ -1,12 +1,13 @@
 from distutils.log import error
 from msilib.schema import Error
 from re import search
+from turtle import title
 import requests
 from bs4 import BeautifulSoup
 import csv
 import os
 import sys
-    
+from storageBoi import StorageBoi
 
 def main_amazon(search_string):
    
@@ -20,14 +21,18 @@ def main_amazon(search_string):
     except:
         print("the url didn't work :(")
         url = None
-
-    listings = get_page_content(page)
-
+    if page !=  None:
+        listings = get_page_content(page)
+    else:
+        return None
 #   now we have to parse the listings according to search criteria(for future criteria)
-    objs = get_prod_objects(listings,s)
+    if listings[0] != None:
+        
+        objs = get_prod_objects(listings,s)
+    else:
+        return None
 
-
-
+    return objs
 
 
 def get_page_content(page):
@@ -51,66 +56,79 @@ def get_page_content(page):
         return None
   
 def get_prod_objects(listings,session):
-    try:
-        for product in listings[:2]:
+        object_list = []
+        for product in listings:
             try:
-                name = product.find("span",attrs={"class":"a-size-medium"}).text.strip()
-                #search_list = search_string.split()
-                """
-                for term in search_list:
-                    if term  in name.split():
-                        cflag = True
-                 
+                try:
                     
-                if cflag:
-                    print(name)
-                else:
-                    return None
-                """
-            except:
-                name = None
-
-            try:
-                price = product.find("span",attrs={"class":"a-offscreen"}).text.strip()
-                print(price)
-            except:
-                price = None
-
-            try:
-                link = product.find("a",attrs={"class":"a-link-normal s-link-style a-text-normal"})["href"].strip()
-                print(link)
-            except:
-                link = None
-            #from the link we need to get to the listing page  to get the description
-
-            
-            product_desc = session.get("https://amazon.com"+link,headers = headers)
-            if product_desc.status_code == 200:
-                    soup_desc = BeautifulSoup(product_desc.content, "html.parser")
-                    try:                    
-                        description = soup_desc.find("div",attrs={"data-feature-name":"productDescription"})
+                    name = product.find("span",attrs={"class":"a-size-medium"}).text.strip()
+                    #search_list = search_string.split()
+                    """
+                    for term in search_list:
+                        if term  in name.split():
+                            cflag = True
                     
-                        description = description.find("div",attrs={"id":"productDescription"}).find("span").text.strip()
-                    except:
-                        description = soup_desc.findAll("table",attrs={"class":"a-bordered a-horizontal-stripes aplus-tech-spec-table"})
-                        content = ""
-                        for element in description:
-                            for i in element.findAll("td"):
-                                content += i.find("span").text.strip()
-                        print(content)
-                        # we have the description and now just need to export the object using storageBoi
                         
+                    if cflag:
+                        print(name)
+                    else:
+                        return None
+                    """
+                except:
+                    name = None
 
-            else:
-                    print(product_desc.status_code)
-                    return None
-            
-    except:
-        print("error in get_prod_objects")
-        print(sys.stderr())
-        print(len(listings))
-        return None
-    return 0
+                try:
+                    price = product.find("span",attrs={"class":"a-offscreen"}).text.strip()
+                    price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "sell"]
+                except:
+                    price = None
+
+                try:
+                    link = product.find("a",attrs={"class":"a-link-normal s-link-style a-text-normal"})["href"].strip()
+                    
+                    if "redirect" in link:
+                        continue
+                except:
+                    link = None
+
+                try:
+                    category = product.find("a",attrs={"class":"a-list-item"}).text.strip()
+                except:
+                    category = None
+                #from the link we need to get to the listing page  to get the description
+
+                try:
+
+                    product_desc = session.get("https://amazon.com"+link,headers = headers)
+                except:
+                    continue
+                if product_desc.status_code == 200:
+                        soup_desc = BeautifulSoup(product_desc.content, "html.parser")
+                        try:                    
+                            description = soup_desc.find("div",attrs={"data-feature-name":"productDescription"})
+                        
+                            content = description.find("div",attrs={"id":"productDescription"}).find("span").text.strip()
+                            
+                        except:
+                            description = soup_desc.findAll("table",attrs={"class":"a-bordered a-horizontal-stripes aplus-tech-spec-table"})
+                            content = ""
+                            for element in description:
+                                for i in element.findAll("td"):
+                                    content += i.find("span").text.strip()
+                            
+                            # we have the description and now just need to export the object using storageBoi
+                        storage_object = StorageBoi(pricE = price ,urL = link , descriptioN= content , titlE = name , categorY = category, datE = None )
+                        
+                        object_list += [storage_object]
+                        
+                else:
+                        print(product_desc.status_code)
+                        continue
+        
+            except:
+                print(sys.stderr)
+        return object_list
+
 
 if __name__ == "__main__":
     headers = {
