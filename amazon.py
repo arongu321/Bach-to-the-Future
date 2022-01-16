@@ -1,4 +1,5 @@
 
+from encodings import search_function
 import requests
 from bs4 import BeautifulSoup , SoupStrainer
 import csv
@@ -9,10 +10,25 @@ from storageBoi import StorageBoi
 def main_amazon(search_string):
    
     # for now the url is hardcoded with the string given by the main.py file
-    
+    headers = {
+        
+        'authority': 'www.amazon.com',
+        'pragma': 'no-cache',
+        'cache-control': 'no-cache',
+        'dnt': '1',
+        'upgrade-insecure-requests': '1',
+        'user-agent': 'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36',
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'sec-fetch-site': 'none',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-dest': 'document',
+        'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
 
+    }
+    
     s = requests.Session()
     url = "https://www.amazon.com/s?k="+search_string
+    
     try:
         page = s.get(url,headers = headers)
         
@@ -22,20 +38,20 @@ def main_amazon(search_string):
         page = None
 
     if page !=  None:
-        listings = get_page_content(page)
+        listings = get_page_content(page,headers)
     else:
         return None
 #   now we have to parse the listings according to search criteria(for future criteria)
     if listings[0] != None:
         
-        objs = get_prod_objects(listings,s)
+        objs = get_prod_objects(listings,s,headers)
     else:
         return None
 
-    return objs
+    print(objs)
 
 
-def get_page_content(page):
+def get_page_content(page,headers):
 
     status = page.status_code
 
@@ -55,7 +71,7 @@ def get_page_content(page):
         print("error in get_page_content",status)
         return None
   
-def get_prod_objects(listings,session):
+def get_prod_objects(listings,session,headers):
         object_list = []
         for product in listings:
             try:
@@ -126,31 +142,17 @@ def get_prod_objects(listings,session):
                         object_list += [storage_object]
                         
                 else:
-                        print(product_desc.status_code)
+                        #print(product_desc.status_code)
                         continue
-        
             except:
-                print(sys.stderr)
+                continue
+           
         return object_list
 
 
 if __name__ == "__main__":
-    headers = {
-        
-        'authority': 'www.amazon.com',
-        'pragma': 'no-cache',
-        'cache-control': 'no-cache',
-        'dnt': '1',
-        'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36',
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-        'sec-fetch-site': 'none',
-        'sec-fetch-mode': 'navigate',
-        'sec-fetch-dest': 'document',
-        'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-
-    }
-    search_string = "gtx 1650"
+    
+    search_string = "vega 56"
     main_amazon(search_string)
     """
             product urls:
