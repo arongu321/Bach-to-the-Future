@@ -21,7 +21,10 @@ def the_output_csv(filename, theData):
         #   This for loop will go over all lists in the list of list input and
         #   output the whole list into the .csv output file.
         for i in theData:
-            writer.writerow(i); #   Shoving out data.
+            try:
+                writer.writerow(i); #   Shoving out data.
+            except:
+                print(i)
 
 def input_and_name():
     """
