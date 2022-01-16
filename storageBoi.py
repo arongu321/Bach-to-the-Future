@@ -2,7 +2,7 @@ class StorageBoi:
     """
     This class will be used to store data of a single listing that was found.
     """
-    def __init__(self, pricE = ['', '', ''], urL = '', titlE = '',
+    def __init__(self, pricE = [0, '', ''], urL = '', titlE = '',
     descriptioN = '', categorY = ''):
         """
         The price input will be in a list form where to first element is the
