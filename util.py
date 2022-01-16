@@ -31,6 +31,13 @@ def convert(from_currency, to_currency='USD', amount=None):
     elif not amount:
         return None
 
+    if type(amount) == str:
+        try:
+            amount.replace(',', '')
+            amount = int(amount)
+        except:
+            amount = None
+
     currencies = data['rates']
     initial_amount = amount
 
