@@ -70,6 +70,6 @@ if __name__ == "__main__":
     print(kijiji_list);
     # test_list = [obj1, obj2, obj3]
     databoi = [];
-    databoi.extend(test_list);
+    databoi.extend(kijiji_list);
     datagirl = resort_prep(databoi);
     the_output_csv(outname, datagirl);
