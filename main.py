@@ -9,6 +9,7 @@ from amazon import main_amazon
 from ebay import ebay_main
 from facebookmarket import fbm_main
 import util
+from tqdm import tqdm
 
 def the_output_csv(filename, theData):
     """
@@ -23,7 +24,8 @@ def the_output_csv(filename, theData):
         writer.writerow(headerBoi); # Prints out the headers for the data.
         # This for loop will go over all lists in the list of list input and
         # output the whole list into the .csv output file.
-        for i in theData:
+        print('Creating output file');
+        for i in tqdm(theData):
             try:
                 writer.writerow(i); #   Shoving out data.
             except:
@@ -60,7 +62,8 @@ def resort_prep(datA):
     """
     # Premaking an empty list so that we can append lists of values into it.
     outerlist = []
-    for i in datA:
+    print("Finding prices in USD")
+    for i in tqdm(datA):
         i.convertedPrice = util.convert(from_currency=i.currency,to_currency='USD',amount=i.price )
     # The sorting algorithm that sorts the price from lowest to highest, but
     # also pushes None to the back of the list.
@@ -73,8 +76,13 @@ def resort_prep(datA):
     return outerlist
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     # Debugging values.
     deBug = True;
+=======
+    #   Debugging values.
+    deBug = False;
+>>>>>>> d0a5f2c4d37ef0b1a0eb611ed5dc6b960bfb1163
     kijiji = True;
     amazon = True;
     ebay = True;
