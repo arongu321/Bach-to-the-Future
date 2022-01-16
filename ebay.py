@@ -1,7 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 import time
+from storageBoi import StorageBoi
 from util import get_page
+
+
 
 def get_ebay_page_info(url):
     page = requests.get(url)
@@ -71,7 +74,7 @@ def get_ebay_page_info(url):
         category = None
     
 
-    return(price,url,title,content_description,category)
+    return{'price':price,'title':title,'category':category,'content':content_description}
 
 
 
@@ -95,7 +98,28 @@ def get_ebay_search_results(url):
     #head = list(html.children)[1]
     #body = list(html.children)[3]
 
-    return [i.find('a')['href'] for i in list(soup.find_all('div', class_='s-item__image'))]
+    items = [i.find('a')['href'] for i in list(soup.find_all('div', class_='s-item__image'))]
+    
+    for i in range(0,len(items)):
+        items[i] = items[i][0:36]
+        
+    return items
 
 
+def ebay_main(search_term, region='edmonton'):
+    url_list = get_ebay_search_results(make_ebay_search_url(search_term))
 
+    object_list = []
+
+    print("Found " + str(len(url_list)) + " listings on ebay. Search term : " + search_term + " Region : " + region)
+
+    for url in url_list:
+        time.sleep(0.5)
+        attribute_dict = get_ebay_page_info(url)
+
+        if attribute_dict:
+            container = StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'])
+            object_list += [container]
+
+    print("Done fetching results from ebay.")
+    return attribute_dict
