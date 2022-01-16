@@ -43,6 +43,10 @@ def get_kijiji_page_info(url):
             wanted = True
     except:
         wanted = False
+    try:
+        date = str(body.find_all('div', class_='datePosted-383942873')[0]['content']).replace('-','/')
+    except:
+        date = None
 
     if price == 'Free' or (price == None and category == "v-free-stuff"):
         price = 0
@@ -66,7 +70,7 @@ def get_kijiji_page_info(url):
     if wanted:
         listing_type = 'BUYING'
 
-    return{'price': [price, currency, listing_type], 'title': title, 'category': category, 'content': content}
+    return{'price': [price, currency, listing_type], 'title': title, 'category': category, 'content': content, 'date': date}
 
 
 def make_kijiji_search_url(search_string, region='edmonton', ):
@@ -111,7 +115,7 @@ def kijiji_main(search_term, region='edmonton'):
         attribute_dict = get_kijiji_page_info(url)
 
         if attribute_dict:
-            container = StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'])
+            container = StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'], datE=attribute_dict['date'])
             object_list += [container]
 
     print("Done fetching results from Kijiji.")
@@ -121,7 +125,7 @@ if __name__ == "__main__":
     pass
     #url_list = get_kijiji_search_results(make_kijiji_search_url('amd'))
 
-    print(get_kijiji_page_info('https://www.kijiji.ca/v-computer-components/calgary/wanted-z690-i-mini-itx-motherboard/1602071415'))
+    print(get_kijiji_page_info('https://www.kijiji.ca/v-computer-components/calgary/i7-7700k-delidded/1583398754'))
     #print(get_kijiji_page_info('https://www.kijiji.ca/v-baby-clothes-9-12-months/edmonton/looking-for-free-baby-clothing-and-blankets-only/1594926129'))
 
 
