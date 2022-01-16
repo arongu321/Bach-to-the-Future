@@ -50,7 +50,7 @@ def get_ebay_page_info(url):
                 unit = "USD"
                 cost = cost.replace("US ","")
             elif "C" in cost:
-                unit = "CAN"
+                unit = "CAD"
                 cost = cost.replace("C ","")    
             elif "GBP" in cost:
                 unit = "GBP"
