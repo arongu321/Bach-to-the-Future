@@ -57,7 +57,10 @@ def get_ebay_page_info(url):
                 cost = cost.replace("GBP ","")    
             elif "AU" in cost:
                 unit = "AU"
-                cost = cost.replace("AU ","")    
+                cost = cost.replace("AU ","")
+            elif "EUR" in cost:
+                unit = "EUR"
+                cost = cost.replace("EUR ","")
             cost = float(cost.replace("$","").replace(",",""))   #strip details
                 
         except:
