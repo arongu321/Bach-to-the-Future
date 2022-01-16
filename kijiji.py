@@ -115,7 +115,7 @@ def kijiji_main(search_term, region='edmonton'):
         attribute_dict = get_kijiji_page_info(url)
 
         if attribute_dict:
-            container = StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'])
+            container = StorageBoi(pricE=attribute_dict['price'], urL=url, titlE=attribute_dict['title'], descriptioN=attribute_dict['content'], categorY=attribute_dict['category'], datE=attribute_dict['date'])
             object_list += [container]
 
     print("Done fetching results from Kijiji.")
