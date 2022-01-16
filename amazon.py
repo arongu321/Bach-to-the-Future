@@ -22,32 +22,27 @@ def main_amazon(search_key):
     options.add_argument("--headless")
     options.add_argument("--log-level = 1")
     options.add_argument("permissions-policy: interest-cohort=()")
-    #driver = webdriver.Firefox(executable_path="C:\\Users\\bachw\\Documents\\GitHub\\Bach-to-the-Future\\geckodriver",options= options)
     driver = webdriver.Firefox(options= options)
     request = driver.get("https://www.amazon.com/s?k="+search_key)
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CLASS_NAME, "s-result-item")))
     page_source = driver.page_source
-
     page = BeautifulSoup(page_source , "html.parser")
-    
-    
     if page !=  None:
-            
-            listings = get_page_content(page)
+        listings = get_page_content(page)
     else:
-            if Debug :
-                print("page is none")
-            return None
-    #   now we have to parse the listings according to search criteria(for future criteria)
+        if Debug :
+            print("page is none")
+        return None
+        
+    # Now we have to parse the listings according to search criteria(for future criteria)
     if listings != None:
-            if Debug:
-                print("in get_prod_objs")
-            objs = get_prod_objects(listings)
+        if Debug:
+            print("in get_prod_objs")
+        objs = get_prod_objects(listings)
     else:
         return None
     if Debug:
         print(objs)
-    #driver.close()
     return objs
 
 def GET_UA():
@@ -66,23 +61,13 @@ def GET_UA():
     return random.choice(uastrings)
 
 def get_page_content(page):
+    try:
+        listings = page.findAll("div",attrs = {"class":"s-result-item"})[1:]
+    except:
+        return None
+    return listings
     
-        #print(type(page),len(page))
-        #soup = BeautifulSoup(page , "html.parser")
-        
-        #print(soup)
-        try:
-            listings = page.findAll("div",attrs = {"class":"s-result-item"})[1:]
-            
-        except:
-            return None
-        #print(listings)
-        return listings
-    
-    
-        
-    
-    
+   
 def get_prod_objects(listings):
     object_list = []
     print("Amazon scraper , Number of listings  " + str(len(listings)) + " :")
@@ -191,17 +176,7 @@ def get_prod_objects(listings):
 
 
 if __name__ == "__main__":
-        
-        search_string = "rtx 3080 ti EVGA"
-        obj_list = main_amazon(search_string)
-        print(obj_list)
-        """
-                product urls:
-
-                https://www.amazon.com/ZOTAC-GTX-1660-Graphics-ZT-T16620F-10L/dp/B07Z8PWC6R/ref=sr_1_1_mod_primary_new?crid=12JRZRLRPEXW0&keywords=gtx%2B1660&qid=1642284515&sbo=RZvfv%2F%2FHxDF%2BO5021pAnSA%3D%3D&sprefix=gtx%2B1660%2Caps%2C159&sr=8-1&th=1
-
-                https://www.amazon.com/AMD-Ryzen-5900X-24-Thread-Processor/dp/B08164VTWH/ref=sr_1_1?crid=HCLAT56NH40N&keywords=amd&qid=1642286693&sprefix=amd%2Caps%2C141&sr=8-1
-                https://www.amazon.com/AMD-Ryzen-5600X-12-Thread-Processor/dp/B08166SLDF/ref=pd_sbs_1/137-1421435-6885034?pd_rd_w=HfJy4&pf_rd_p=3676f086-9496-4fd7-8490-77cf7f43f846&pf_rd_r=7R7QFEQG7HW2TYDFDTTH&pd_rd_r=2a55cf70-3045-443a-bced-35eafb738489&pd_rd_wg=zP90J&pd_rd_i=B08166SLDF&psc=1
-
-        """
+    search_string = "rtx 3080 ti EVGA"
+    obj_list = main_amazon(search_string)
+    print(obj_list)
             
