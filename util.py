@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 import time
+from tkinter import *
+import tkinter as tk
+from tkinter import ttk
 
 def get_page(url):
     try:
@@ -17,5 +20,27 @@ def get_page(url):
                 print('Still invalid, giving up')
                 return None
         return soup
+    except:
+        return None
+
+# from https://data-flair.training/blogs/currency-converter-python/
+def convert(from_currency, to_currency='USD', amount=None):
+    data = requests.get('https://api.exchangerate-api.com/v4/latest/USD').json()
+    if amount == 0:
+        return 0
+    elif not amount:
+        return None
+
+    currencies = data['rates']
+    initial_amount = amount
+
+    try:
+        if from_currency != 'USD':
+            amount = amount / currencies[from_currency]
+
+            # limiting the precision to 4 decimal places
+        amount = round(amount * currencies[to_currency], 4)
+        return amount
+
     except:
         return None
