@@ -22,10 +22,10 @@ def the_output_csv(filename, theData):
         # output the whole list into the .csv output file.
         for i in theData:
             try:
-                writer.writerow(i); # Shoving out data.
+                writer.writerow(i); #   Shoving out data.
             except:
-                print("Bad data: ")
-                print(i)
+                print("Bad data: ") #   Old handling for print errors. Not
+                print(i)    #   needed anymore as we are now using unicode.
 
 def input_and_name():
     """
@@ -55,14 +55,19 @@ def resort_prep(datA):
     """
     I made this function literally just to sort the final list of lists.
     """
+    #   Premaking an empty list so that we can append lists of values into it.
     outerlist = []
+    #   The sorting algorithm that sorts the price from lowest to highest, but
+    #   also pushes None to the back of the list.
     datA.sort(key=lambda x: (x.price is None, x.price))
+    #   Shoving the data into a list in the larger return list.
     for i in datA:
         outerlist.append([i.price, i.currency, i.transaction, i.title,
         i.description, i.category, i.date, i.url])
     return outerlist
 
 if __name__ == "__main__":
+    #   Debugging values.
     deBug = True;
     kijiji = True;
     amazon = True;
@@ -83,7 +88,8 @@ if __name__ == "__main__":
             databoi.extend(kijiji_list);
         if deBug:
             print(kijiji_list);
-    
+    #   The rest are going to be the same as kijiji debugging set. I could've
+    #   probably made a function
     if amazon:
         amazon_list = main_amazon(search_terM);
         if amazon_list != None:
@@ -97,6 +103,8 @@ if __name__ == "__main__":
             databoi.extend(ebay_list);
         if deBug:
             print(ebay_list);
-
+    #   Sending the list of objects to be sorted and converted to a list of
+    #   lists.
     datagirl = resort_prep(databoi);
+    #   Writing out the list of list as a .csv file.
     the_output_csv(outname, datagirl);
