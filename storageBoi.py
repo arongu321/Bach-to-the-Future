@@ -3,7 +3,7 @@ class StorageBoi:
     This class will be used to store data of a single listing that was found.
     """
     def __init__(self, pricE = [0, '', ''], urL = '', titlE = '',
-    descriptioN = '', categorY = '', datE = ''):
+    descriptioN = '', categorY = '', datE = '', websitE = ''):
         """
         The price input will be in a list form where to first element is the
         float of the price, the second element will be the currency, USD or
@@ -23,7 +23,8 @@ class StorageBoi:
         self.description = descriptioN;
         self.category = categorY;
         self.date = datE;
+        self.website = websitE;
     
     def outlist(self):
         return [self.price, self.currency, self.transaction, self.title,
-         self.description, self.category, self.date, self.url];
+         self.description, self.category, self.date, self.website, self.url];
