@@ -13,32 +13,39 @@ import random
 
 def main_amazon(search_string):
    
+    proxies = {'http': 'https://182.53.197.156',
+                'http': 'https://81.95.230.211',
+                "http":"https://83.151.4.172",
+                "http":"https://187.216.93.20"
+
+                }
     # for now the url is hardcoded with the string given by the main.py file
-    headers = {"user-agent":"Googlebot",
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-                'Accept-Encoding': 'none',
-                'Accept-Language': 'en-US,en;q=0.8',
-                'Connection': 'keep-alive'}
+    headers = {"Origin": "https://www.amazon.com",
+            "Referer": "https://www.amazon.com/",
+           
+            
+            
+            "sec-ch-ua-platform": "Windows",
+        "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36"
+                }
     
-    s = requests.Session()
-    url = "https://www.amazon.com/s?k="+search_string
+  
+    url = "https://www.amazon.ca/s?k="+search_string
     
-    try:
-        page = s.get(url,headers = headers)
+    time.sleep(0.5)
+    page = requests.get(url,headers = headers )
+   
         
-    except:
-        
-        return None
 
     if page !=  None:
         listings = get_page_content(page,headers)
     else:
+        #print("page is none")
         return None
 #   now we have to parse the listings according to search criteria(for future criteria)
     if listings != None:
-        
-        objs = get_prod_objects(listings,s,headers)
+        #print("in get_prod_objs")
+        objs = get_prod_objects(listings,headers,proxies)
     else:
         return None
 
@@ -79,10 +86,11 @@ def get_page_content(page,headers):
         print("error in get_page_content",status)
         return None
   
-def get_prod_objects(listings,session,headers):
+def get_prod_objects(listings,headers,proxies):
         object_list = []
         print("Amazon scraper , Number of listings  " + str(len(listings)) + " :")
         time.sleep(0.2)
+
         for product in tqdm(listings):
             try:
                 try:
@@ -126,7 +134,7 @@ def get_prod_objects(listings,session,headers):
 
                 try:
 
-                    product_desc = session.get("https://amazon.com"+link,headers = headers)
+                    product_desc = requests.get("https://amazon.com"+link,headers = headers)
                 except:
                     continue
                 if product_desc.status_code == 200:
@@ -163,7 +171,7 @@ def get_prod_objects(listings,session,headers):
 
 if __name__ == "__main__":
     
-    search_string = "vega 56"
+    search_string = "rtx 3080 ti EVGA"
     obj_list = main_amazon(search_string)
     for i in obj_list:
         print("price :",i.price , "title : ", i.title)

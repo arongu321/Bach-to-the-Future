@@ -11,34 +11,34 @@ def get_fbm_page_info(url):
         return None
 
     try:
-        price = None
+        price = json.loads(soup.find_all('script')[1].get_text())['offers']['price']
     except:
         price = None
 
     try:
-        currency = None
+        currency = json.loads(soup.find_all('script')[1].get_text())['offers']['priceCurrency']
     except:
         currency = None
 
     try:
-        title = None
+        title = json.loads(soup.find_all('script')[1].get_text())['name']
     except:
         title = None
 
     try:
         content = json.loads(soup.find_all('script')[1].get_text())['description']
-        #.split(':')[7]
-        #.split('"')[1]
     except:
         content = None
 
-    listing_type = None
     date = None
+
+    listing_type = None
 
     return {'price': [price, currency, listing_type], 'title': title, 'category': category, 'content': content,
             'date': date}
 
 if __name__ == "__main__":
-    url = "https://www.facebook.com/marketplace/item/4529181560527923"
+    url = "https://www.facebook.com/marketplace/item/205016458501904"
 
-    print(get_fbm_page_info(url)['content'])
+    #get_fbm_page_info(url)
+    print(get_fbm_page_info(url))
