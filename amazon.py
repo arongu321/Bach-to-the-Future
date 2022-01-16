@@ -84,117 +84,132 @@ def get_page_content(page):
     
     
 def get_prod_objects(listings):
-    object_list = []
-    print("Amazon scraper , Number of listings  " + str(len(listings)) + " :")
-
-    for product in tqdm(listings):
-        time.sleep(0.2)
-
-        try:
-
-            name = product.find("span",attrs={"class":"a-size-medium"}).text.strip()
-            if Debug:
-                print(name,end="")
-            """
-            search_list = search_string.split()
+            object_list = []
+            print("Amazon scraper , Number of listings  " + str(len(listings)) + " :")
             
-            for term in search_list:
-                if term  in name.split():
-                    cflag = True
-            
-                
-            if cflag:
-                pass
-            else:
-                continue
-            
-            """
-        except:
-            continue
 
-        try:
-            price = product.find("span",attrs={"class":"a-offscreen"}).text.strip()
-
-            price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
-            if Debug:
-                print(price,end="")
-        except:
-            price = None
-            if price == None:
-
+            for product in tqdm(listings):
+                time.sleep(0.2)
                 try:
-                    price = product.find("span",attrs = {"class":"a-price-whole"}).text.strip()
-                except:
-                    price = None
-                try:
-                    price = float(price)
-                except:
+                    
                     try:
-                        price = float(price[1:])
-                        price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
-                        if Debug:
-                            print(price , end="")
+                        
+                        name = product.find("span",attrs={"class":"a-size-medium"}).text.strip()
+                        
+                            #print(name,end="")
+                        """
+                        search_list = search_string.split()
+                        
+                        for term in search_list:
+                            if term  in name.split():
+                                cflag = True
+                        
+                            
+                        if cflag:
+                            pass
+                        else:
+                            continue
+                        
+                    """    
                     except:
-                        pass
-                    pass
+                        continue
+                    
+                    try:
+                        price = product.find("span",attrs={"class":"a-offscreen"}).text.strip()
+                        
+                        price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
+                        
+                            #print(price,end="")
+                    except:
+                        #print(price)
+                        if price == None:
+                           
+                            price = product.find("span",attrs = {"class":"a-price-whole"}).text.strip()
+                            try:
+                                price = price.replace(",","")
+                                price = float(price)
+                            except:
+                                try:
+                                    price = price.replace(",","")
+                                    price = float(price[1:])
+                                    price = [float(price[1:]) if float(price[1:]) else 0, "CAD", "SELLING"]
+                                    
+                                        #print(price , ends="")
+                                except:
+                                    pass
+                                pass
 
-        try:
-            link = product.find("a",attrs={"class":"a-link-normal s-link-style a-text-normal"})["href"].strip()
-            if Debug:
-                print(link,end="")
-            if "redirect" in link:
-                continue
-        except:
-            link = None
+                    try:
+                        link = product.find("a",attrs={"class":"a-link-normal s-link-style a-text-normal"})["href"].strip()
+                        
+                        #print(link,end="")
+                        if "redirect" in link:
+                            continue
+                    except:
+                        link = None
 
-        try:
-            category = product.find("a",attrs={"class":"a-list-item"}).text.strip()
-        except:
-            category = None
-        #from the link we need to get to the listing page  to get the description
-
-        try:
-            product_desc = requests.get("https://amazon.com"+link)
-        except:
-            continue
-        if name != None and link!= None and price!= None :
-            #print("in prod desc")
-            #soup_desc = BeautifulSoup(product_desc.content, "html.parser" )
-            try:
-                strainer = SoupStrainer("div")
-                soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)
-                description = soup_desc.find("div",attrs={"data-feature-name":"productDescription"})
-
-                content = description.find("div",attrs={"id":"productDescription"}).find("span").text.strip()
-
-            except:
-                try:
-                    strainer = SoupStrainer("table")
-                    soup_desc = BeautifulSoup(product_desc.content, "lxml" , parse_only = strainer)
-                    description = soup_desc.findAll("table",attrs={"class":"a-bordered a-horizontal-stripes aplus-tech-spec-table"})
-                    content = ""
-                    for element in description:
-                        for i in element.findAll("td"):
-                            content += i.find("span").text.strip()
-
-                    # we have the description and now just need to export the object using storageBoi
+                    try:
+                        category = product.find("a",attrs={"class":"a-list-item"}).text.strip()
+                    except:
+                        category = None
+                    try:
+                        date = product.findAll("html")["data-aui-build-date"]
+                        
+                        print(date)
+                    except:
+                        date = None
+                    #from the link we need to get to the listing page  to get the description
+                    """
+                    try:
+                        print(link)
+                        product_desc = requests.get("https://amazon.com"+link)
+                        print('product_desc works')
+                    except:
+                        continue
+                    if link != None:
+                            print("in prod desc")
+                            soup_desc = BeautifulSoup(product_desc.content, "html.parser" )
+                            print(soup_desc)
+                            
+                            try:  
+                                #strainer = SoupStrainer("div")
+                                #soup_desc = BeautifulSoup(product_desc.content, "lxml" )                  
+                                description = soup_desc.find("div",attrs={"data-feature-name":"productDescription"})
+                            
+                                content = description.find("div",attrs={"id":"productDescription"}).find("p").text.strip()
+                                print(content)
+                            except:
+                                #strainer = SoupStrainer("table")
+                                #soup_desc = BeautifulSoup(product_desc.content, "lxml")                  
+                                description = soup_desc.findAll("table",attrs={"class":"a-bordered a-horizontal-stripes aplus-tech-spec-table"})
+                                content = ""
+                                for element in description:
+                                    for i in element.findAll("tr"):
+                                        content += i.find("span").text.strip()
+                                print(content)
+                                # we have the description and now just need to export the object using storageBoi
+                            
+                            #if Debug:
+                                #print("price :", price , "title :", name)
+                    """
+                    storage_object = StorageBoi(pricE = price ,urL = "https://amazon.com"+link , descriptioN= None , titlE = name , categorY = category, datE = date )
+                    object_list += [storage_object]
+                            
+                    
                 except:
-                    content = None
-
-        else:
-            continue
-
-        storage_object = StorageBoi(pricE = price ,urL = link , descriptioN= content , titlE = name , categorY = category, datE = None )
-        object_list += [storage_object]
-
-    return object_list
+                    continue
+            
+            return object_list
 
 
 if __name__ == "__main__":
         
         search_string = "rtx 3080 ti EVGA"
         obj_list = main_amazon(search_string)
-        print(obj_list)
+        for i in obj_list:
+            print(i.price, i.currency, i.transaction, i.title,\
+        i.description, i.category, i.date, i.website, i.url)
+        
         """
                 product urls:
 
