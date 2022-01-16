@@ -22,6 +22,6 @@ def get_fbm_page_info(url):
     print(body)
 
 if __name__ == "__main__":
-    url = "https://www.facebook.com/marketplace/item/355095496002798/?ref=category_feed"
+    url = "https://www.facebook.com/marketplace/item/355095496002798"
 
     get_fbm_page_info(url)
