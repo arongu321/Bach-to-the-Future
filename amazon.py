@@ -19,7 +19,8 @@ def main_amazon(search_key):
     options.add_argument("--headless")
     options.add_argument("--log-level = 1")
     options.add_argument("permissions-policy: interest-cohort=()")
-    driver = webdriver.Firefox(executable_path="C:\\Users\\bachw\\Documents\\GitHub\\Bach-to-the-Future\\geckodriver",options= options)
+    #driver = webdriver.Firefox(executable_path="C:\\Users\\bachw\\Documents\\GitHub\\Bach-to-the-Future\\geckodriver",options= options)
+    driver = webdriver.Firefox(options= options)
     request = driver.get("https://www.amazon.com/s?k="+search_key)
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CLASS_NAME, "s-result-item")))
     page_source = driver.page_source

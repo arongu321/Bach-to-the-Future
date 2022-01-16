@@ -7,6 +7,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from storageBoi import StorageBoi
 from tqdm import tqdm
+from selenium.webdriver.firefox.options import Options
 
 def get_fbm_page_info(url):
     category = url[22:].split('/')[0]
@@ -52,7 +53,11 @@ def make_fbm_search_url(search_string, region='edmonton', ):
     return url
 
 def get_fbm_search_results(url):
-    browser = webdriver.Firefox()
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--log-level = 1")
+    options.add_argument("permissions-policy: interest-cohort=()")
+    browser = webdriver.Firefox(options=options)
     browser.get(url)
     html_source = browser.page_source
     browser.quit()
