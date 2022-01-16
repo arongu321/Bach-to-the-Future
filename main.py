@@ -15,7 +15,7 @@ def the_output_csv(filename, theData):
     address = "%s.csv"%(filename);
     headerBoi = ["Price", "Currency", "Transaction Type", "Title",
     "Description", "Category", "Date Posted", "Link"];
-    with open(address, 'w') as fout:
+    with open(address, 'w', encoding = 'utf-8') as fout:
         writer = csv.writer(fout);
         writer.writerow(headerBoi); #   Prints out the headers for the data.
         #   This for loop will go over all lists in the list of list input and
